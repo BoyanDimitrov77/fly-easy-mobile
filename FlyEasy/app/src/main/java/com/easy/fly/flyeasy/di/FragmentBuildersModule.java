@@ -7,7 +7,6 @@ package com.easy.fly.flyeasy.di;
 import com.easy.fly.flyeasy.fragments.RegularRegistrationUserFragment;
 
 import dagger.Module;
-import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 
 @Module

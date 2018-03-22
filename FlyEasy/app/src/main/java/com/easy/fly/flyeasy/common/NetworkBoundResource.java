@@ -8,6 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
+import com.easy.fly.flyeasy.AppExecutors;
+
+import java.util.Objects;
+
 
 /**
  * Created by boyan.dimitrov on 18.3.2018 г..
@@ -33,6 +37,8 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @NonNull @MainThread
     protected abstract LiveData<ApiResponse<RequestType>> createCall();
 
+    private final AppExecutors appExecutors;
+
     // Called when the fetch fails. The child class may want to reset components
     // like rate limiter.
     @MainThread
@@ -42,21 +48,21 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
 
     @MainThread
-    protected NetworkBoundResource() {
-        result.setValue((Resource<ResultType>) Resource.loading(null));
+    public NetworkBoundResource(AppExecutors appExecutors) {
+        this.appExecutors = appExecutors;
+        result.setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();
         result.addSource(dbSource, data -> {
             result.removeSource(dbSource);
             if (shouldFetch(data)) {
                 fetchFromNetwork(dbSource);
             } else {
-                result.addSource(dbSource,
-                        newData -> result.setValue(Resource.success(newData)));
+                result.addSource(dbSource, newData -> setValue(Resource.success(newData)));
             }
         });
     }
 
-    private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
+    /*private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
         LiveData<ApiResponse<RequestType>> apiResponse = createCall();
         // we re-attach dbSource as a new source,
         // it will dispatch its latest value quickly
@@ -75,6 +81,40 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                                 Resource.error(response.errorMessage, newData)));
             }
         });
+    }*/
+
+    private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
+        LiveData<ApiResponse<RequestType>> apiResponse = createCall();
+        // we re-attach dbSource as a new source, it will dispatch its latest value quickly
+        result.addSource(dbSource, newData -> setValue(Resource.loading(newData)));
+        result.addSource(apiResponse, response -> {
+            result.removeSource(apiResponse);
+            result.removeSource(dbSource);
+            //noinspection ConstantConditions
+            if (response.isSuccessful()) {
+                appExecutors.diskIO().execute(() -> {
+                    saveCallResult(processResponse(response));
+                    appExecutors.mainThread().execute(() ->
+                            // we specially request a new live data,
+                            // otherwise we will get immediately last cached value,
+                            // which may not be updated with latest results received from network.
+                            result.addSource(loadFromDb(),
+                                    newData -> setValue(Resource.success(newData)))
+                    );
+                });
+            } else {
+                onFetchFailed();
+                result.addSource(dbSource,
+                        newData -> setValue(Resource.error(response.errorMessage, newData)));
+            }
+        });
+    }
+
+    @MainThread
+    private void setValue(Resource<ResultType> newValue) {
+        if (!Objects.equals(result.getValue(), newValue)) {
+            result.setValue(newValue);
+        }
     }
 
     @MainThread
@@ -102,6 +142,11 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     // in the base class.
     public final LiveData<Resource<ResultType>> getAsLiveData() {
         return result;
+    }
+
+    @WorkerThread
+    protected RequestType processResponse(ApiResponse<RequestType> response) {
+        return response.body;
     }
 
 }

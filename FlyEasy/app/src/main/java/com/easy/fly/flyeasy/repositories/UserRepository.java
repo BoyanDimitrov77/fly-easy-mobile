@@ -39,7 +39,7 @@ public class UserRepository {
     }
 
     public LiveData<Resource<User>> loadUser(final String userId) {
-        return new NetworkBoundResource<User,User>() {
+        return new NetworkBoundResource<User,User>(appExecutors) {
             @Override
             protected void saveCallResult(@NonNull User item) {
                 userDao.save(item);
@@ -64,7 +64,7 @@ public class UserRepository {
     }
 
     public LiveData<Resource<User>> registerUser(final UserDto userDto){
-        return new NetworkBoundResource<User,UserDto>(){
+        return new NetworkBoundResource<User,UserDto>(appExecutors){
             @NonNull
             @Override
             protected LiveData<User> loadFromDb() {
