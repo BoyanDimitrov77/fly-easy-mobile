@@ -4,6 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.easy.fly.flyeasy.dto.UserDto;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
@@ -18,12 +19,19 @@ import lombok.Data;
 @Builder
 public class User  {
     @PrimaryKey
+    @SerializedName("id")
     private int id;
+    @SerializedName("username")
     private String username;
+    @SerializedName("email")
     private String email;
+    @SerializedName("fullName")
     private String fullName;
+    @SerializedName("profilePicture")
     private String profilePicture;
+    @SerializedName("birthDate")
     private String birthDate;
+    @SerializedName("location")
     private String location;
 
     public User( int id,String username,String email,String fullName, String profilePicture,String birthDate,String location){

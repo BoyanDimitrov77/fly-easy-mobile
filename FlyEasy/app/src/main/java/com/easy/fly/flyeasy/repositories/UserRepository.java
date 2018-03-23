@@ -3,7 +3,6 @@ package com.easy.fly.flyeasy.repositories;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.transition.Visibility;
 
 import com.easy.fly.flyeasy.AppExecutors;
 import com.easy.fly.flyeasy.common.ApiResponse;
@@ -16,9 +15,6 @@ import com.easy.fly.flyeasy.interfaces.UserWebService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
 
 /**
  * Created by boyan.dimitrov on 18.3.2018 г..
@@ -58,34 +54,34 @@ public class UserRepository {
 
             @NonNull @Override
             protected LiveData<ApiResponse<User>> createCall() {
-                return (LiveData<ApiResponse<User>>) userWebService.getUser(userId);
+                return userWebService.getUser(userId);
             }
-        }.getAsLiveData();
+        }.asLiveData();
     }
 
-    public LiveData<Resource<User>> registerUser(final UserDto userDto){
-        return new NetworkBoundResource<User,UserDto>(appExecutors){
+    public LiveData<Resource<UserDto>> registerUser(final UserDto userDto){
+        return new NetworkBoundResource<UserDto,User>(appExecutors){
             @NonNull
             @Override
-            protected LiveData<User> loadFromDb() {
+            protected LiveData<UserDto> loadFromDb() {
                 return null;
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable User data) {
-                return false;
+            protected boolean shouldFetch(@Nullable UserDto data) {
+                return true;
             }
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<UserDto>> createCall() {
-                return (LiveData<ApiResponse<UserDto>>) userWebService.registerUser(userDto);
+            protected LiveData<ApiResponse<User>> createCall() {
+                return userWebService.registerUser(userDto);
             }
 
             @Override
-            protected void saveCallResult(@NonNull UserDto item) {
-                userDao.save(User.of(item));
+            protected void saveCallResult(@NonNull User item) {
+                userDao.save(item);
             }
-        }.getAsLiveData();
+        }.asLiveData();
     }
 }

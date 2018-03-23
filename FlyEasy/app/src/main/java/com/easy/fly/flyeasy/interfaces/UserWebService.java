@@ -1,5 +1,8 @@
 package com.easy.fly.flyeasy.interfaces;
 
+import android.arch.lifecycle.LiveData;
+
+import com.easy.fly.flyeasy.common.ApiResponse;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.UserDto;
 
@@ -16,8 +19,8 @@ import retrofit2.http.Url;
 
 public interface UserWebService {
     @POST("register")
-    Call<User> registerUser(@Body UserDto dto);
+    LiveData<ApiResponse<User>> registerUser(@Body UserDto user);
 
     @GET("/users/{user}")
-    Call<User> getUser(@Path("user") String userId);
+    LiveData<ApiResponse<User>> getUser(@Path("user") String userId);
 }

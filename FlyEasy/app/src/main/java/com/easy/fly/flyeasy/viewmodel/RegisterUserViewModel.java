@@ -18,7 +18,7 @@ import javax.inject.Inject;
 
 public class RegisterUserViewModel extends ViewModel{
 
-    private LiveData<Resource<User>> user;
+    private LiveData<Resource<UserDto>> user;
     private UserRepository userRepository;
 
     @Inject

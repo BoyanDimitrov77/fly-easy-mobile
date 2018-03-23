@@ -5,6 +5,7 @@ package com.easy.fly.flyeasy.di;
  */
 
 import com.easy.fly.flyeasy.activities.LoginActivity;
+import com.easy.fly.flyeasy.activities.SignUpActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -16,6 +17,10 @@ public abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
     abstract LoginActivity contributeLoginActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    abstract SignUpActivity contributeSignUpActivity();
+
 
 
 }
