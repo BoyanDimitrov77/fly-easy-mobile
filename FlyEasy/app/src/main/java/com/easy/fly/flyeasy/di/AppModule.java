@@ -7,8 +7,6 @@ package com.easy.fly.flyeasy.di;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import com.easy.fly.flyeasy.FlyEasyApp;
-import com.easy.fly.flyeasy.common.LiveDataCallAdapterFactory;
 import com.easy.fly.flyeasy.db.FlyEasyDatabase;
 import com.easy.fly.flyeasy.db.dao.UserDao;
 import com.easy.fly.flyeasy.interfaces.UserWebService;
@@ -17,8 +15,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.Converter.Factory.*;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
@@ -26,11 +26,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 class AppModule {
     @Singleton @Provides
     UserWebService provideService() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
         return new Retrofit.Builder()
                 //.baseUrl("https://flyeasyapp.herokuapp.com/api/v1/")
-                .baseUrl("http://localhost:8080/api/v1/")
+                .baseUrl("http://10.0.2.2:8080/api/v1/")
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(UserWebService.class);
     }

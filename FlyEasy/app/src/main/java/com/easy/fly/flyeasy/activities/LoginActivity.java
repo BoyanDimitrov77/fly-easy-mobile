@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -23,6 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,10 +38,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.easy.fly.flyeasy.R;
+import com.easy.fly.flyeasy.common.Response;
+import com.easy.fly.flyeasy.db.models.User;
+import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
 
 import javax.inject.Inject;
 
@@ -63,6 +66,11 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
     @BindView(R.id.btn_login) Button _loginButton;
     @BindView(R.id.link_signup) TextView _signupLink;
 
+    private RegisterUserViewModel viewModel;
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
+
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -72,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(RegisterUserViewModel.class);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -113,9 +122,16 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
+        String base = email + ":" + password;
+        String authHeader = "Basic " + Base64.encodeToString(base.getBytes(),Base64.NO_WRAP);
+
+        viewModel.loginUser(authHeader);
+        viewModel.response().observe(this,response->processResponse(response,progressDialog));
+
+
         // TODO: Implement your own authentication logic here.
 
-        new android.os.Handler().postDelayed(
+        /*new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
@@ -123,7 +139,28 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
                         // onLoginFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 3000);*/
+    }
+
+    private void processResponse(Response response,ProgressDialog progressDialog) {
+        switch (response.status) {
+            case LOADING:
+                break;
+
+            case SUCCESS:
+                onLoginSuccess();
+                System.out.println(((User)response.data).getEmail());
+                progressDialog.dismiss();
+                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                break;
+
+            case ERROR:
+                onLoginFailed();
+                progressDialog.dismiss();
+                break;
+        }
+
+
     }
 
     @Override

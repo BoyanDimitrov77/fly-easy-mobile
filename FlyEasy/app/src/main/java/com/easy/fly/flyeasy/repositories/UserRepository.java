@@ -1,13 +1,8 @@
 package com.easy.fly.flyeasy.repositories;
 
-import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.annotation.SuppressLint;
 
 import com.easy.fly.flyeasy.AppExecutors;
-import com.easy.fly.flyeasy.common.ApiResponse;
-import com.easy.fly.flyeasy.common.NetworkBoundResource;
-import com.easy.fly.flyeasy.common.Resource;
 import com.easy.fly.flyeasy.db.dao.UserDao;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.UserDto;
@@ -15,6 +10,11 @@ import com.easy.fly.flyeasy.interfaces.UserWebService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by boyan.dimitrov on 18.3.2018 г..
@@ -34,54 +34,14 @@ public class UserRepository {
         this.appExecutors = appExecutors;
     }
 
-    public LiveData<Resource<User>> loadUser(final String userId) {
-        return new NetworkBoundResource<User,User>(appExecutors) {
-            @Override
-            protected void saveCallResult(@NonNull User item) {
-                userDao.save(item);
-            }
+    public Observable<User> regUser (final UserDto userDto){
+        return userWebService.regUser(userDto);
 
-            @Override
-            protected boolean shouldFetch(@Nullable User data) {
-               // return rateLimiter.canFetch(userId) && (data == null || !isFresh(data));
-                return false;
-            }
-
-            @NonNull @Override
-            protected LiveData<User> loadFromDb() {
-                return userDao.load(userId);
-            }
-
-            @NonNull @Override
-            protected LiveData<ApiResponse<User>> createCall() {
-                return userWebService.getUser(userId);
-            }
-        }.asLiveData();
     }
 
-    public LiveData<Resource<UserDto>> registerUser(final UserDto userDto){
-        return new NetworkBoundResource<UserDto,User>(appExecutors){
-            @NonNull
-            @Override
-            protected LiveData<UserDto> loadFromDb() {
-                return null;
-            }
-
-            @Override
-            protected boolean shouldFetch(@Nullable UserDto data) {
-                return true;
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<User>> createCall() {
-                return userWebService.registerUser(userDto);
-            }
-
-            @Override
-            protected void saveCallResult(@NonNull User item) {
-                userDao.save(item);
-            }
-        }.asLiveData();
+    public Observable<User> authenticate(String authorization){
+        return userWebService.authenticateUser(authorization);
     }
+
+
 }

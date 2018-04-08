@@ -1,74 +1,54 @@
 package com.easy.fly.flyeasy.db.models;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import android.location.Location;
 
-import com.easy.fly.flyeasy.dto.UserDto;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import java.util.List;
 
-import lombok.Builder;
-import lombok.Data;
+public class User {
 
-/**
- * Created by boyan.dimitrov on 18.3.2018 г..
- */
-
-@Entity
-@Builder
-public class User  {
-    @PrimaryKey
     @SerializedName("id")
-    private int id;
-    @SerializedName("username")
-    private String username;
+    @Expose
+    private long id;
     @SerializedName("email")
+    @Expose
     private String email;
+    @SerializedName("userName")
+    @Expose
+    private String userName;
     @SerializedName("fullName")
+    @Expose
     private String fullName;
+    @SerializedName("enabled")
+    @Expose
+    private boolean enabled;
+    @SerializedName("timestamp")
+    @Expose
+    private String timestamp;
     @SerializedName("profilePicture")
-    private String profilePicture;
+    @Expose
+    private ProfilePicture profilePicture;
+    @SerializedName("bonuses")
+    @Expose
+    private List<Bonuse> bonuses = null;
     @SerializedName("birthDate")
+    @Expose
     private String birthDate;
     @SerializedName("location")
-    private String location;
+    @Expose
+    private LocationUser location;
+    @SerializedName("name")
+    @Expose
+    private String name;
 
-    public User( int id,String username,String email,String fullName, String profilePicture,String birthDate,String location){
-        this.id=id;
-        this.username=username;
-        this.fullName=fullName;
-        this.profilePicture = profilePicture;
-        this.birthDate = birthDate;
-        this.location = location;
-    }
-
-    public static User of (UserDto user){
-        return User.builder()
-                .id(user.getId())
-                .username(user.getUserName())
-                .email(user.getEmail())
-                .fullName(user.getFullName())
-                //.profilePicture(user.getProfilePicture())
-                .birthDate(user.getBirthDate())
-                .location(user.getLocation())
-                .build();
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {
@@ -79,6 +59,14 @@ public class User  {
         this.email = email;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getFullName() {
         return fullName;
     }
@@ -87,12 +75,36 @@ public class User  {
         this.fullName = fullName;
     }
 
-    public String getProfilePicture() {
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public ProfilePicture getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(String profilePicture) {
+    public void setProfilePicture(ProfilePicture profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public List<Bonuse> getBonuses() {
+        return bonuses;
+    }
+
+    public void setBonuses(List<Bonuse> bonuses) {
+        this.bonuses = bonuses;
     }
 
     public String getBirthDate() {
@@ -103,11 +115,24 @@ public class User  {
         this.birthDate = birthDate;
     }
 
-    public String getLocation() {
+    public LocationUser getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(LocationUser location) {
         this.location = location;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return getEmail();
     }
 }

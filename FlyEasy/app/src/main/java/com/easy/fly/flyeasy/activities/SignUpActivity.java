@@ -15,7 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easy.fly.flyeasy.R;
-import com.easy.fly.flyeasy.di.Injectable;
+import com.easy.fly.flyeasy.common.Response;
+import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.UserDto;
 import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
 
@@ -97,30 +98,38 @@ public class SignUpActivity extends AppCompatActivity implements HasSupportFragm
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
-        viewModel.init(new UserDto(email,password,username,fullName,null,null));
-        // TODO: Implement your own signup logic here.
+        viewModel.registerUser(new UserDto(email,password,username,fullName,null,null));
+        viewModel.response().observe(this,response -> processResposne(response,progressDialog));
+    }
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+    private void processResposne(Response response,ProgressDialog progressDialog) {
+
+        switch (response.status) {
+            case LOADING:
+                break;
+
+            case SUCCESS:
+                onSignupSuccess();
+                System.out.println(((User)response.data).getEmail());
+                progressDialog.dismiss();
+                break;
+
+            case ERROR:
+                onSignupFailed();
+                break;
+        }
     }
 
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        finish();
+        Toast.makeText(getBaseContext(), "Registration successful", Toast.LENGTH_LONG).show();
+        //finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Registration failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -163,7 +172,6 @@ public class SignUpActivity extends AppCompatActivity implements HasSupportFragm
 
         return valid;
     }
-
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {

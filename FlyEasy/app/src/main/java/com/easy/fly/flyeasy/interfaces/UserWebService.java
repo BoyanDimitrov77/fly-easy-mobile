@@ -6,9 +6,11 @@ import com.easy.fly.flyeasy.common.ApiResponse;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.UserDto;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
@@ -19,8 +21,10 @@ import retrofit2.http.Url;
 
 public interface UserWebService {
     @POST("register")
-    LiveData<ApiResponse<User>> registerUser(@Body UserDto user);
+    Observable<User> regUser(@Body UserDto user);
 
-    @GET("/users/{user}")
-    LiveData<ApiResponse<User>> getUser(@Path("user") String userId);
+    @GET("authenticate")
+    Observable<User> authenticateUser(@Header("Authorization") String authorization);
+
+
 }

@@ -9,6 +9,7 @@ import android.arch.persistence.room.Query;
 
 
 import com.easy.fly.flyeasy.db.models.User;
+import com.easy.fly.flyeasy.db.models.UserDB;
 
 import javax.inject.Inject;
 
@@ -25,9 +26,9 @@ import dagger.Provides;
 public interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void save(User user);
+    void save(UserDB user);
 
-    @Query("SELECT * FROM user WHERE id = :userId")
-    LiveData<User> load(String userId);
+    @Query("SELECT * FROM userdb WHERE id = :userId")
+    LiveData<UserDB> load(String userId);
 
 }

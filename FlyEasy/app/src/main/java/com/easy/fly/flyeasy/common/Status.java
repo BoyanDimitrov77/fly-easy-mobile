@@ -5,7 +5,7 @@ package com.easy.fly.flyeasy.common;
  */
 
 public enum Status {
+    LOADING,
     SUCCESS,
-    ERROR,
-    LOADING
+    ERROR
 }
