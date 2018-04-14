@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    card_view:cardCornerRadius="5dp">
+
+   <RelativeLayout
+       android:id="@+id/row_element"
+       android:layout_width="match_parent"
+       android:layout_height="57dp"
+       android:layout_margin="10dp">
+
+      <TextView
+          android:id="@+id/depart_plain_text"
+          android:layout_width="62dp"
+          android:layout_height="34dp"
+          android:layout_alignParentBottom="true"
+          android:layout_toEndOf="@+id/location_from"
+          android:ems="10"
+          android:gravity="center"
+          android:inputType="textPersonName"
+          android:text="@string/arrive"
+          android:textSize="8sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:id="@+id/depart_plain_text4"
+          android:layout_width="31dp"
+          android:layout_height="25dp"
+          android:layout_alignParentTop="true"
+          android:layout_toStartOf="@+id/price_ticket"
+          android:ems="10"
+          android:gravity="center"
+          android:inputType="textPersonName"
+          android:text="@string/price"
+          android:textSize="8sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:id="@+id/depart_plain_text5"
+          android:layout_width="62dp"
+          android:layout_height="34dp"
+          android:layout_centerVertical="true"
+          android:layout_toEndOf="@+id/location_from"
+          android:ems="10"
+          android:gravity="center"
+          android:inputType="textPersonName"
+          android:text="@string/depart_date"
+          android:textSize="8sp"
+          android:textStyle="bold" />
+
+      <ImageView
+          android:id="@+id/airline_logo"
+          android:layout_width="40dp"
+          android:layout_height="30dp"
+          android:layout_alignParentStart="true"
+          android:layout_centerVertical="true"
+          android:contentDescription="@string/flight_logo" />
+      <!--card_view:srcCompat="@drawable/airplane_icon" -->
+
+
+      <TextView
+          android:id="@+id/airline_name"
+          android:layout_width="64dp"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:layout_marginTop="4dp"
+          android:layout_toEndOf="@+id/airline_logo"
+          android:gravity="center"
+          android:text="TextView"
+          android:textSize="8sp"
+          android:textStyle="italic" />
+
+      <TextView
+          android:id="@+id/to"
+          android:layout_width="32dp"
+          android:layout_height="34dp"
+          android:layout_alignParentBottom="true"
+          android:layout_alignStart="@+id/airline_name"
+          android:ems="10"
+          android:gravity="center"
+          android:inputType="textPersonName"
+          android:text="@string/to"
+          android:textSize="8sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:id="@+id/location_to"
+          android:layout_width="62dp"
+          android:layout_height="34dp"
+          android:layout_alignParentBottom="true"
+          android:layout_toEndOf="@+id/to"
+          android:gravity="center"
+          android:text="TextView"
+          android:textSize="8sp" />
+
+      <TextView
+          android:id="@+id/location_from"
+          android:layout_width="62dp"
+          android:layout_height="34dp"
+          android:layout_centerVertical="true"
+          android:layout_toEndOf="@+id/to"
+          android:gravity="center"
+          android:text="TextView"
+          android:textSize="8sp" />
+
+      <TextView
+          android:id="@+id/arrive"
+          android:layout_width="wrap_content"
+          android:layout_height="34dp"
+          android:layout_alignParentBottom="true"
+          android:layout_toEndOf="@+id/depart_plain_text"
+          android:gravity="center"
+          android:text="TextView"
+          android:textSize="8sp" />
+
+      <TextView
+          android:id="@+id/price_ticket"
+          android:layout_width="wrap_content"
+          android:layout_height="25dp"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginEnd="0dp"
+          android:gravity="center"
+          android:text="TextView"
+          android:textSize="8sp" />
+
+      <TextView
+          android:id="@+id/depart_date"
+          android:layout_width="wrap_content"
+          android:layout_height="34dp"
+          android:layout_centerVertical="true"
+          android:layout_toEndOf="@+id/depart_plain_text"
+          android:gravity="center"
+          android:text="TextView"
+          android:textSize="8sp" />
+
+      <Button
+          android:id="@+id/book_button"
+          android:layout_width="53dp"
+          android:layout_height="31dp"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentEnd="true"
+          android:text="Book"
+          android:textSize="8sp" />
+
+      <TextView
+          android:id="@+id/from"
+          android:layout_width="35dp"
+          android:layout_height="30dp"
+          android:layout_centerVertical="true"
+          android:layout_toEndOf="@+id/airline_logo"
+          android:gravity="center"
+          android:text="From"
+          android:textSize="8sp"
+          android:textStyle="bold" />
+
+   </RelativeLayout>
+</android.support.v7.widget.CardView>

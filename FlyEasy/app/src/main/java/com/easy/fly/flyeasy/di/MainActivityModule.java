@@ -4,6 +4,7 @@ package com.easy.fly.flyeasy.di;
  * Created by boyan.dimitrov on 18.3.2018 г..
  */
 
+import com.easy.fly.flyeasy.activities.HomeActivity;
 import com.easy.fly.flyeasy.activities.LoginActivity;
 import com.easy.fly.flyeasy.activities.SignUpActivity;
 
@@ -21,6 +22,7 @@ public abstract class MainActivityModule {
     @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
     abstract SignUpActivity contributeSignUpActivity();
 
-
+    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    abstract HomeActivity contributeHomeActivitu();
 
 }
