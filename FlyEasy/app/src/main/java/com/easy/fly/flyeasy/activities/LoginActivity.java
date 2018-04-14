@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private String authHeader;
 
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
@@ -123,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         String password = _passwordText.getText().toString();
 
         String base = email + ":" + password;
-        String authHeader = "Basic " + Base64.encodeToString(base.getBytes(),Base64.NO_WRAP);
+        authHeader = "Basic " + Base64.encodeToString(base.getBytes(),Base64.NO_WRAP);
 
         viewModel.loginUser(authHeader);
         viewModel.response().observe(this,response->processResponse(response,progressDialog));
@@ -151,7 +152,9 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
                 onLoginSuccess();
                 System.out.println(((User)response.data).getEmail());
                 progressDialog.dismiss();
-                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                intent.putExtra("AUTORIZATION",authHeader);
+                startActivity(intent);
                 break;
 
             case ERROR:

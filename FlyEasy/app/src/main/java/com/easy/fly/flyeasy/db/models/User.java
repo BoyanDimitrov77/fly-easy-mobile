@@ -1,7 +1,5 @@
 package com.easy.fly.flyeasy.db.models;
 
-import android.location.Location;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -38,7 +36,7 @@ public class User {
     private String birthDate;
     @SerializedName("location")
     @Expose
-    private LocationUser location;
+    private LocationModel location;
     @SerializedName("name")
     @Expose
     private String name;
@@ -115,11 +113,11 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public LocationUser getLocation() {
+    public LocationModel getLocation() {
         return location;
     }
 
-    public void setLocation(LocationUser location) {
+    public void setLocation(LocationModel location) {
         this.location = location;
     }
 
