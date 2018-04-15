@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.BookingFragment">
+
+    <RelativeLayout
+        android:id="@+id/booking_info"
+        android:layout_width="379dp"
+        android:layout_height="527dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.333">
+
+        <ImageView
+            android:id="@+id/airline_logo"
+            android:layout_width="194dp"
+            android:layout_height="99dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/booking_from_location"
+            android:layout_marginTop="45dp"
+            android:contentDescription="@string/flight_logo" />
+
+        <TextView
+            android:id="@+id/airline_name"
+            android:layout_width="139dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/fromLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="53dp"
+            android:layout_marginTop="187dp"
+            android:text="@string/from" />
+
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/fromLocation"
+            android:layout_marginTop="226dp"
+            android:text="@string/to" />
+
+        <TextView
+            android:id="@+id/depart"
+            android:layout_width="51dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/fromLocation"
+            android:layout_marginBottom="241dp"
+            android:text="@string/depart" />
+
+
+        <TextView
+            android:id="@+id/booking_from_location"
+            android:layout_width="61dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/fromLocation"
+            android:layout_marginStart="97dp" />
+
+        <TextView
+            android:id="@+id/booking_to_location"
+            android:layout_width="61dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/to"
+            android:layout_toEndOf="@+id/fromLocation" />
+
+        <TextView
+            android:id="@+id/booking_depart"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/booking_from_location"
+            android:layout_alignTop="@+id/depart"
+            android:layout_marginEnd="-19dp" />
+
+        <TextView
+            android:id="@+id/price_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/depart_date"
+            android:layout_marginEnd="109dp"
+            android:text="@string/price" />
+
+        <TextView
+            android:id="@+id/booking_price_ticket"
+            android:layout_width="61dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/price_ticket"
+            android:layout_marginEnd="38dp" />
+
+        <Button
+            android:id="@+id/book_button"
+            android:layout_width="127dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="13dp"
+            android:text="@string/book" />
+
+        <TextView
+            android:id="@+id/arrive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignStart="@+id/fromLocation"
+            android:text="@string/arrive" />
+
+        <TextView
+            android:id="@+id/booking_arrive"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/arrive"
+            android:layout_toEndOf="@+id/depart" />
+
+
+        <TextView
+            android:id="@+id/depart_date"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/fromLocation"
+            android:layout_marginBottom="160dp"
+            android:layout_marginEnd="-5dp"
+            android:layout_toStartOf="@+id/airline_name"
+            android:text="@string/depart_date" />
+
+        <TextView
+            android:id="@+id/booking_depart_date"
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/price_ticket"
+            android:layout_toStartOf="@+id/imageView" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="128dp"
+            android:layout_height="97dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/to"
+            android:layout_marginEnd="28dp"
+            android:contentDescription="@string/moneylogo"
+            android:src="@drawable/money" />
+
+        <Spinner
+            android:id="@+id/spinnerTicket"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/price_ticket"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="88dp" />
+
+        <TextView
+            android:id="@+id/ticket_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerTicket"
+            android:layout_marginTop="-106dp"
+            android:layout_toStartOf="@+id/airline_logo"
+            android:text="@string/ticket" />
+
+        <Spinner
+            android:id="@+id/spinnerTravelClass"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/price_ticket"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="123dp"
+            android:layout_marginEnd="-1dp" />
+
+        <TextView
+            android:id="@+id/travelClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/spinnerTravelClass"
+            android:layout_alignStart="@+id/fromLocation"
+            android:text="@string/travel_class" />
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

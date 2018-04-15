@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -45,8 +46,6 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
 public class HomeActivity extends AppCompatActivity implements HasSupportFragmentInjector,DatePickerDialog.OnDateSetListener {
-
-    private TextView mTextMessage;
 
     private String authHeader;
 
@@ -90,13 +89,11 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_profile);
                     return true;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_news);
                     return true;
             }
             return false;
@@ -120,7 +117,6 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
         viewModel.allFlights(authHeader);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -157,7 +153,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
             case SUCCESS:
                 data = (ArrayList<Flight>) response.data;
-                adapter = new FlightAdapter(data,getApplicationContext());
+                adapter = new FlightAdapter(data,getApplicationContext(),authHeader);
                 recyclerView.setAdapter(adapter);
                 break;
 

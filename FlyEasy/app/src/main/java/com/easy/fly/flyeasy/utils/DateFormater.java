@@ -25,4 +25,34 @@ public class DateFormater {
         return null;
 
     }
+
+    public static String getHourFromDate(String date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
+        Date newDate = null;
+
+        try {
+            newDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat requiredDateFormat = new SimpleDateFormat("h:mm a");
+        return requiredDateFormat.format(newDate);
+    }
+
+    public static String formatDateForUI(String date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
+
+        Date newDate = null;
+
+        try {
+            newDate = dateFormat.parse(date);
+            String newD = newDate.toString();
+            System.out.println(newD);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat requiredDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return requiredDateFormat.format(newDate);
+    }
 }

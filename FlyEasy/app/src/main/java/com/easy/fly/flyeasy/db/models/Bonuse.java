@@ -1,12 +1,26 @@
 package com.easy.fly.flyeasy.db.models;
 
 import android.arch.persistence.room.Entity;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.math.BigDecimal;
+
 @Entity
-public class Bonuse {
+public class Bonuse implements Parcelable{
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Bonuse createFromParcel(Parcel in) {
+            return new Bonuse(in);
+        }
+
+        public Bonuse[] newArray(int size) {
+            return new Bonuse[size];
+        }
+    };
 
     @SerializedName("id")
     @Expose
@@ -16,13 +30,22 @@ public class Bonuse {
     private long userId;
     @SerializedName("percent")
     @Expose
-    private long percent;
+    private BigDecimal percent;
     @SerializedName("expiredDate")
     @Expose
     private String expiredDate;
     @SerializedName("isUsed")
     @Expose
     private boolean isUsed;
+
+    public Bonuse(Parcel in) {
+
+        this.id = in.readLong();
+        this.userId = in.readLong();
+        this.percent = BigDecimal.valueOf(in.readDouble());
+        this.expiredDate = in.readString();
+        this.isUsed = in.readInt() == 1;
+    }
 
     public long getId() {
         return id;
@@ -40,11 +63,11 @@ public class Bonuse {
         this.userId = userId;
     }
 
-    public long getPercent() {
+    public BigDecimal getPercent() {
         return percent;
     }
 
-    public void setPercent(long percent) {
+    public void setPercent(BigDecimal percent) {
         this.percent = percent;
     }
 
@@ -64,4 +87,18 @@ public class Bonuse {
         this.isUsed = isUsed;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeLong(this.id);
+        dest.writeLong(this.userId);
+        dest.writeDouble(this.percent.doubleValue());
+        dest.writeString(this.expiredDate);
+        dest.writeInt(this.isUsed? 1: 0);
+    }
 }
