@@ -8,6 +8,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.easy.fly.flyeasy.viewmodel.AppViewModelFactory;
+import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
 import com.easy.fly.flyeasy.viewmodel.HomeViewModel;
 import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
 
@@ -26,6 +27,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel.class)
     abstract ViewModel bindHomeViewModel(HomeViewModel homeViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BookingViewModel.class)
+    abstract ViewModel bindBookingViewModel(BookingViewModel bookingViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(AppViewModelFactory factory);

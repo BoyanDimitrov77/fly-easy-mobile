@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.PaymentFragment">
+
+
+    <RelativeLayout
+        android:id="@+id/payment"
+        android:layout_width="match_parent"
+        android:layout_height="492dp">
+
+        <TextView
+            android:id="@+id/price_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="170dp"
+            android:text="@string/price_ticket"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/price_ticket"
+            android:layout_marginEnd="78dp"
+            android:gravity="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/bonus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/price_ticket"
+            android:layout_marginTop="229dp"
+            android:text="@string/use_bonus"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editBonus"
+            android:layout_width="93dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/bonus"
+            android:layout_alignStart="@+id/price"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/totalP"
+            android:layout_width="97dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/price_ticket"
+            android:layout_marginBottom="195dp"
+            android:text="@string/total_price"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/totalP"
+            android:layout_alignStart="@+id/price"
+            android:gravity="center"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/payButton"
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="119dp"
+            android:text="@string/pay" />
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

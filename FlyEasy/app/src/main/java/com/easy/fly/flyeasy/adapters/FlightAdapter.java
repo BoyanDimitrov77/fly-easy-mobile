@@ -1,6 +1,7 @@
 package com.easy.fly.flyeasy.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -16,8 +18,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.easy.fly.flyeasy.R;
+import com.easy.fly.flyeasy.activities.BookingActivity;
+import com.easy.fly.flyeasy.activities.HomeActivity;
 import com.easy.fly.flyeasy.db.models.Flight;
-import com.easy.fly.flyeasy.di.GlideApp;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -36,10 +39,12 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
 
     private ArrayList<Flight> flights;
     private Context context;
+    private String authorization;
 
-    public FlightAdapter (ArrayList<Flight> flights,Context context){
+    public FlightAdapter (ArrayList<Flight> flights,Context context,String authorization){
         this.flights = flights;
         this.context = context;
+        this.authorization = authorization;
     }
 
     @NonNull
@@ -58,6 +63,17 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         holder.departDate.setText(flights.get(position).getDepartDate());
         holder.arrive.setText(flights.get(position).getArriveDate());
         holder.priceTicket.setText(flights.get(position).getPrice().toString());
+
+        holder.bookBbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, BookingActivity.class);
+                intent.putExtra("FLIGHT",flights.get(position));
+                intent.putExtra("AUTORIZATION",authorization);
+                context.startActivity(intent);
+
+            }
+        });
 
 /*        OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
@@ -114,6 +130,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         private TextView arrive;
         private TextView priceTicket;
         private ImageView airLineLogo;
+        private Button bookBbutton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -125,6 +142,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
             arrive = (TextView) itemView.findViewById(R.id.arrive);
             priceTicket = (TextView) itemView.findViewById(R.id.price_ticket);
             airLineLogo = (ImageView) itemView.findViewById(R.id.airline_logo);
+            bookBbutton = (Button) itemView.findViewById(R.id.book_button);
 
         }
     }

@@ -147,7 +147,7 @@
           android:layout_height="31dp"
           android:layout_alignParentBottom="true"
           android:layout_alignParentEnd="true"
-          android:text="Book"
+          android:text="@string/book"
           android:textSize="8sp" />
 
       <TextView

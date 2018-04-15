@@ -1,12 +1,24 @@
 package com.easy.fly.flyeasy.db.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class User {
+public class User implements Parcelable{
 
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private long id;
@@ -40,6 +52,21 @@ public class User {
     @SerializedName("name")
     @Expose
     private String name;
+
+    public User(Parcel in) {
+        this.id = in.readLong();
+        this.email = in.readString();
+        this.userName = in.readString();
+        this.fullName = in.readString();
+        this.enabled = in.readInt() == 1;
+        this.timestamp = in.readString();
+        this.profilePicture = (ProfilePicture) in.readParcelable(ProfilePicture.class.getClassLoader());
+        this.bonuses = (List<Bonuse>)in.readArrayList(Bonuse.class.getClassLoader());
+        this.birthDate = in.readString();
+        this.location = (LocationModel) in.readParcelable(LocationModel.class.getClassLoader());
+        this.name = in.readString();
+
+    }
 
     public long getId() {
         return id;
@@ -132,5 +159,27 @@ public class User {
     @Override
     public String toString() {
         return getEmail();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeLong(this.id);
+        dest.writeString(this.email);
+        dest.writeString(this.userName);
+        dest.writeString(this.fullName);
+        dest.writeInt(this.enabled? 1 :0);
+        dest.writeString(this.timestamp);
+        dest.writeParcelable(this.profilePicture,flags);
+        dest.writeArray(this.bonuses.toArray());
+        dest.writeString(this.birthDate);
+        dest.writeParcelable(this.location,flags);
+        dest.writeString(this.name);
+
     }
 }

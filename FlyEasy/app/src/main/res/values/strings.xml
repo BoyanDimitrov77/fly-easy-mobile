@@ -30,4 +30,17 @@
     <string name="price">Price</string>
     <string name="date">Date</string>
     <string name="rating">Rating</string>
+    <string name="depart">Depart</string>
+    <string name="book">Book</string>
+    <string name="moneylogo">moneyLogo</string>
+    <string name="ticket">Ticket</string>
+    <string name="travel_class">Travel Class</string>
+    <string name="passenger_name">Passenger name</string>
+    <string name="identification_number">Identification number</string>
+    <string name="contactlogo">contactLogo</string>
+    <string name="next">Next</string>
+    <string name="price_ticket">Price Ticket</string>
+    <string name="use_bonus">Use bonus(%)</string>
+    <string name="total_price">Total price</string>
+    <string name="pay">Pay</string>
 </resources>
