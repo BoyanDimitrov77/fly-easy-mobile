@@ -1,7 +1,10 @@
 package com.easy.fly.flyeasy.interfaces;
 
+import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.Flight;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
+import com.easy.fly.flyeasy.db.models.Hotel;
+import com.easy.fly.flyeasy.db.models.HotelBook;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.PassengerDto;
 import com.easy.fly.flyeasy.dto.SearchDto;
@@ -43,5 +46,18 @@ public interface UserWebService {
     @POST("booking/bookFlight/payment")
     Observable<FlightBooking> payBooking(@Header("Authorization") String authorization,@Query("amount") String amount , @Query("flightBookId") String flightBookId,@Query("bonusId") String bonusId,@Query("travelClassId") String travelClassId);
 
+    @GET("users/accessTokenGD")
+    Observable<BasicModel>getAccessTokenGD(@Header("Authorization") String authorization);
 
+    @GET("hotel/availableHotels/{locationId}")
+    Observable<List<Hotel>> findHotels(@Header("Authorization") String authorization,@Path("locationId") long flightBookId);
+
+    @POST("booking/bookHotel/{hoteRoomId}")
+    Observable<HotelBook> bookHotel(@Header("Authorization") String authorization,@Path("hoteRoomId")long hotelRoomId);
+
+    @POST("booking/bookHotel/payment")
+    Observable<HotelBook> payHotel(@Header("Authorization") String authorization,@Query("hotelBookId")String hotelBookId,@Query("amount")String amount);
+
+    @GET("hotel/all")
+    Observable<List<Hotel>> getAllHotel(@Header("Authorization") String authorization);
 }

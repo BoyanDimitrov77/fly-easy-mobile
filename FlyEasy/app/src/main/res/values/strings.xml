@@ -20,7 +20,7 @@
     <string name="title_activity_login2">Sign in</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_profile">Profile</string>
+    <string name="title_hotels">Hotels</string>
     <string name="title_news">News</string>
     <string name="flight_logo">logo</string>
     <string name="from">From</string>
@@ -43,4 +43,14 @@
     <string name="use_bonus">Use bonus(%)</string>
     <string name="total_price">Total price</string>
     <string name="pay">Pay</string>
+    <string name="confirmed_payment">Confirmed payment</string>
+    <string name="canceled_payment">Canceled payment</string>
+    <string name="your_booked_tickets">Your booked tickets</string>
+    <string name="look_for_available_hotel">Look for available hotel</string>
+    <string name="thumbnails">thumbnails</string>
+    <string name="imagepreview">imagePreview</string>
+    <string name="room_type">Room Type</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Search hotel</string>
+    <string name="toolbar_title">Hotels</string>
 </resources>

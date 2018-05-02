@@ -1,23 +1,32 @@
 package com.easy.fly.flyeasy.activities;
 
-import android.app.FragmentManager;
+import android.app.DatePickerDialog;
+import android.app.SearchManager;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.easy.fly.flyeasy.R;
+import com.easy.fly.flyeasy.adapters.HotelAdapter;
+import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.common.SessionManager;
-import com.easy.fly.flyeasy.db.models.Flight;
-import com.easy.fly.flyeasy.fragments.BookingFragment;
+import com.easy.fly.flyeasy.db.models.CombineModel;
+import com.easy.fly.flyeasy.fragments.HotelListFragment;
 import com.easy.fly.flyeasy.utils.UserUtil;
-
-import java.io.Serializable;
-import java.util.List;
+import com.easy.fly.flyeasy.viewmodel.HotelViewModel;
 
 import javax.inject.Inject;
 
@@ -27,11 +36,11 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class BookingActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class HotelActivity extends AppCompatActivity implements HasSupportFragmentInjector{
 
-    private SessionManager sessionManager;
+    private String hotelScreenSelected;
 
-    private String userAthenticationHeader;
+    private long locationId;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -60,42 +69,44 @@ public class BookingActivity extends AppCompatActivity implements HasSupportFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_booking);
+        setContentView(R.layout.activity_hotel);
         ButterKnife.bind(this);
 
-        sessionManager = new SessionManager(getApplicationContext());
 
-        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
-
-        sessionManager.getUserDeatails();
-
+        initKey();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setSelectedItemId(R.id.navigation_hotel);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-
-
-        Flight flight = (Flight)getIntent().getExtras().getParcelable("FLIGHT");
-        String accessTocketnGD = (String) getIntent().getExtras().get("ACCES_TOCKENT_GD");
-        //String autorization = getIntent().getStringExtra("AUTORIZATION");
-
         Bundle bundle = new Bundle();
-        bundle.putParcelable("FLIGHT",getIntent().getExtras().getParcelable("FLIGHT"));
-        bundle.putString("ACCES_TOCKENT_GD",accessTocketnGD);
-        //bundle.putString("AUTORIZATION",autorization);
-        BookingFragment bookingFragment = new BookingFragment();
-        bookingFragment.setArguments(bundle);
+        bundle.putString("HOTEL_SCREEN_SELECTED",hotelScreenSelected);
+        bundle.putLong("HOTEL_LOCATION_ID",locationId);
+
+        HotelListFragment hotelListFragment = new HotelListFragment();
+        hotelListFragment.setArguments(bundle);
 
         //start fragment
         android.support.v4.app.FragmentManager fragmentManager = this.getSupportFragmentManager();
         int containerId = R.id.container;
         fragmentManager.beginTransaction()
-                .replace(containerId,bookingFragment)
+                .replace(containerId,hotelListFragment)
                 .commitAllowingStateLoss();
 
     }
 
+
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    public void initKey(){
+        //userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
+        hotelScreenSelected = getIntent().getExtras().get("HOTEL_SCREEN_SELECTED").toString();
+        if(getIntent().getExtras().get("HOTEL_LOCATION_ID")!=null){
+            locationId = Long.valueOf(getIntent().getExtras().get("HOTEL_LOCATION_ID").toString());
+        }
+
+
     }
 }

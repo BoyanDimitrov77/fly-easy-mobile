@@ -2,6 +2,7 @@ package com.easy.fly.flyeasy.repositories;
 
 import com.easy.fly.flyeasy.AppExecutors;
 import com.easy.fly.flyeasy.db.dao.UserDao;
+import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.Flight;
 import com.easy.fly.flyeasy.dto.SearchDto;
 import com.easy.fly.flyeasy.interfaces.UserWebService;

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    card_view:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:id="@+id/hotel_card"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/hotel_picture"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            app:civ_border_color="#0fffffff"
+            app:civ_border_width="2dp"
+            android:contentDescription="Hotel Picture"/>
+
+        <TextView
+            android:id="@+id/hotel_name"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="103dp"
+            android:layout_marginTop="11dp"
+            android:lineSpacingExtra="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hotel_description"
+            android:layout_width="238dp"
+            android:layout_height="44dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/hotel_name"
+            android:layout_marginBottom="9dp"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/hotel_location"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/hotel_name"
+            android:layout_marginEnd="10dp"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

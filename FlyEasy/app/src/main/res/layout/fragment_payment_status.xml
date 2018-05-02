@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="java.lang.String"/>
+        <variable
+            name="paymentStatus"
+            type="com.easy.fly.flyeasy.db.models.PaymentStatus" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/paymentStatusConfirmed"
+        android:layout_width="match_parent"
+        android:layout_height="492dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/cancelled"
+            android:layout_width="210dp"
+            android:layout_height="174dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="55dp"
+            android:contentDescription="@string/confirmed_payment"
+            android:src="@drawable/cancel"
+            android:visibility="@{paymentStatus.confirmed ? View.GONE : View.VISIBLE}"/>
+
+        <ImageView
+            android:id="@+id/confirmed"
+            android:layout_width="210dp"
+            android:layout_height="174dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="55dp"
+            android:contentDescription="@string/confirmed_payment"
+            android:src="@drawable/confirmed"
+            android:visibility="@{paymentStatus.confirmed ? View.VISIBLE : View.GONE}"/>
+
+        <TextView
+            android:id="@+id/confirmed_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="253dp"
+            android:text="@string/confirmed_payment"
+            android:textSize="30sp"
+            android:visibility="@{paymentStatus.confirmed ? View.VISIBLE : View.GONE}"/>
+
+        <TextView
+            android:id="@+id/cancelled_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="253dp"
+            android:text="@string/canceled_payment"
+            android:textSize="30sp"
+            android:visibility="@{paymentStatus.confirmed ? View.GONE : View.VISIBLE}"/>
+
+        <Button
+            android:id="@+id/bookedTicketsbtn"
+            android:layout_width="194dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="111dp"
+            android:text="@string/your_booked_tickets"
+            android:visibility="@{paymentStatus.confirmed &amp;&amp; paymentStatus.paymentStatusFromFlightBook ? View.VISIBLE : View.GONE}"/>
+
+        <Button
+            android:id="@+id/avaialbleHotelsbtn"
+            android:layout_width="194dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="39dp"
+            android:text="@string/look_for_available_hotel"
+            android:visibility="@{paymentStatus.confirmed &amp;&amp; paymentStatus.paymentStatusFromFlightBook ? View.VISIBLE : View.GONE}"/>
+    </RelativeLayout>
+</layout>

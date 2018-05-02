@@ -18,16 +18,20 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.adapters.FlightAdapter;
 import com.easy.fly.flyeasy.adapters.PassengerAdapter;
+import com.easy.fly.flyeasy.common.HeaderAtuhenticationGlide;
 import com.easy.fly.flyeasy.common.Response;
+import com.easy.fly.flyeasy.common.SessionManager;
 import com.easy.fly.flyeasy.db.models.Flight;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.TravelClass;
 import com.easy.fly.flyeasy.di.Injectable;
 import com.easy.fly.flyeasy.dto.PassengerDto;
 import com.easy.fly.flyeasy.utils.DateFormater;
+import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
 import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
 import com.squareup.picasso.MemoryPolicy;
@@ -93,13 +97,19 @@ public class BookingFragment extends Fragment implements Injectable {
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
 
-    private String authHeader;
+    //private String authHeader;
 
     private Flight flight;
 
     private TravelClass travelClass;
 
     private BigDecimal totalPrice;
+
+    private SessionManager sessionManager;
+
+    private String userAthenticationHeader;
+
+    private String accesTokenGD;
 
     public BookingFragment() {
         // Required empty public constructor
@@ -120,6 +130,8 @@ public class BookingFragment extends Fragment implements Injectable {
         View inflate = inflater.inflate(R.layout.fragment_booking, container, false);
         ButterKnife.bind(this,inflate);
 
+        sessionManager = new SessionManager(getContext());
+
         initKey();
 
         airlineName.setText(flight.getAirLine().getAirlineName());
@@ -132,12 +144,8 @@ public class BookingFragment extends Fragment implements Injectable {
 
         basePriceFlight = flight.getPrice();
 
-        Picasso.get()
-                .load("https://" + flight.getAirLine().getLogo().getThumbnailPicture().getValue())
-                .placeholder(R.drawable.airplane_icon)
-                .error(R.drawable.airplane_icon)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
+        Glide.with(getContext())
+                .load(HeaderAtuhenticationGlide.loadUrl(flight.getAirLine().getLogo().getThumbnailPicture().getValue(),accesTokenGD)) // GlideUrl is created anyway so there's no extra objects allocated
                 .into(airlineLogo);
 
         //spinner ticket
@@ -184,15 +192,15 @@ public class BookingFragment extends Fragment implements Injectable {
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.bookFlight(authHeader,flight.getId());
-                viewModel.response().observe(getActivity(),response->processResponse(response,flight.getId(),travelClass.getId(),totalPrice));
+                viewModel.bookFlight(userAthenticationHeader,flight.getId());
+                viewModel.response().observe(getActivity(),response->processResponse(response,travelClass.getId(),totalPrice));
             }
         });
 
         return inflate;
     }
 
-    private void processResponse(Response response, long flightId, long travelClassId, BigDecimal totalPrice) {
+    private void processResponse(Response response, long travelClassId, BigDecimal totalPrice) {
         switch (response.status) {
             case LOADING:
                 break;
@@ -201,8 +209,8 @@ public class BookingFragment extends Fragment implements Injectable {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("TICKET_NUMBER",ticketNum);
-                bundle.putString("AUTORIZATION",authHeader);
-                bundle.putLong("FLIGHT_ID",flightId);
+                //bundle.putString("AUTORIZATION",authHeader);
+                bundle.putLong("FLIGHT_BOOK_ID",((FlightBooking)response.data).getId());
                 bundle.putLong("TRAVEL_CLASS_ID",travelClassId);
                 bundle.putString("TOTAL_PRICE_TICKET",totalPrice.toString());
 
@@ -225,8 +233,9 @@ public class BookingFragment extends Fragment implements Injectable {
     }
 
     private void initKey(){
-        authHeader = (String)getArguments().get("AUTORIZATION");
+        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
         flight = (Flight)getArguments().getParcelable("FLIGHT");
+        accesTokenGD = (String)getArguments().get("ACCES_TOCKENT_GD");
 
     }
 

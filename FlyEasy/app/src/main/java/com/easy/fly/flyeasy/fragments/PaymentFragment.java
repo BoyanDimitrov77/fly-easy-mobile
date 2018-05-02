@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.common.Response;
+import com.easy.fly.flyeasy.common.SessionManager;
 import com.easy.fly.flyeasy.db.models.Bonuse;
 import com.easy.fly.flyeasy.db.models.Flight;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.di.Injectable;
+import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
 
 import java.math.BigDecimal;
@@ -43,6 +45,10 @@ public class PaymentFragment extends Fragment implements Injectable {
     private FlightBooking flightBooking;
 
     private String totalPriceTicket;
+
+    private SessionManager sessionManager;
+
+    private String userAthenticationHeader;
 
 
     @BindView(R.id.price)
@@ -79,6 +85,8 @@ public class PaymentFragment extends Fragment implements Injectable {
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_payment, container, false);
         ButterKnife.bind(this,inflate);
+
+        sessionManager = new SessionManager(getContext());
 
         initKey();
 
@@ -130,27 +138,49 @@ public class PaymentFragment extends Fragment implements Injectable {
     }
 
     private void processResponse(Response response) {
-
+        Bundle bundle = new Bundle();
         switch (response.status) {
             case LOADING:
                 break;
 
             case SUCCESS:
                 Toast.makeText(getContext(), "Payment successful!", Toast.LENGTH_LONG).show();
+                long locationId = ((FlightBooking) response.data).getFlight().getLocationTo().getId();
+
+                moveToPaymentStatusFragment(bundle,true,locationId);
                 break;
 
             case ERROR:
+                moveToPaymentStatusFragment(bundle,false,0);
                 break;
         }
     }
 
 
     private void  initKey(){
-        autheader = getArguments().getString("AUTORIZATION");
+        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
+       // autheader = getArguments().getString("AUTORIZATION");
         flightBooking = (FlightBooking)getArguments().getParcelable("FLIGHT_BOOKING");
         travelClassId = getArguments().getString("TRAVEL_CLASS_ID");
         totalPriceTicket = getArguments().getString("TOTAL_PRICE_TICKET") ;
 
+    }
+
+    private void moveToPaymentStatusFragment(Bundle bundle,boolean paymentStatus,long locationId){
+        bundle.putBoolean("IS_CONFIRMED",paymentStatus);
+        bundle.putBoolean("IS_PAYMENT_STATUS_FROM_FLIGHT_BOOK",true);
+
+        if(locationId !=0){
+            bundle.putLong("HOTEL_LOCATION_ID",locationId);
+        }
+
+        PaymentStatusFragment paymentStatusFragment = new PaymentStatusFragment();
+        paymentStatusFragment.setArguments(bundle);
+        android.support.v4.app.FragmentManager fragmentManager = this.getFragmentManager();
+        int containerId = R.id.container;
+        fragmentManager.beginTransaction()
+                .replace(containerId,paymentStatusFragment)
+                .commitAllowingStateLoss();
     }
 
 }

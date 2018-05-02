@@ -39,7 +39,7 @@ public class User implements Parcelable{
     private String timestamp;
     @SerializedName("profilePicture")
     @Expose
-    private ProfilePicture profilePicture;
+    private PictureResolution profilePicture;
     @SerializedName("bonuses")
     @Expose
     private List<Bonuse> bonuses = null;
@@ -60,7 +60,7 @@ public class User implements Parcelable{
         this.fullName = in.readString();
         this.enabled = in.readInt() == 1;
         this.timestamp = in.readString();
-        this.profilePicture = (ProfilePicture) in.readParcelable(ProfilePicture.class.getClassLoader());
+        this.profilePicture = (PictureResolution) in.readParcelable(PictureResolution.class.getClassLoader());
         this.bonuses = (List<Bonuse>)in.readArrayList(Bonuse.class.getClassLoader());
         this.birthDate = in.readString();
         this.location = (LocationModel) in.readParcelable(LocationModel.class.getClassLoader());
@@ -116,11 +116,11 @@ public class User implements Parcelable{
         this.timestamp = timestamp;
     }
 
-    public ProfilePicture getProfilePicture() {
+    public PictureResolution getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(ProfilePicture profilePicture) {
+    public void setProfilePicture(PictureResolution profilePicture) {
         this.profilePicture = profilePicture;
     }
 

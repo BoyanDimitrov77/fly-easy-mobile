@@ -6,6 +6,7 @@ package com.easy.fly.flyeasy.di;
 
 import com.easy.fly.flyeasy.activities.BookingActivity;
 import com.easy.fly.flyeasy.activities.HomeActivity;
+import com.easy.fly.flyeasy.activities.HotelActivity;
 import com.easy.fly.flyeasy.activities.LoginActivity;
 import com.easy.fly.flyeasy.activities.SignUpActivity;
 
@@ -28,6 +29,9 @@ public abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
     abstract BookingActivity contributeBookingActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    abstract HotelActivity contributeHotelActivity();
 
 
 }

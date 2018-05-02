@@ -1,21 +1,20 @@
 package com.easy.fly.flyeasy.db.models;
 
-import android.arch.persistence.room.Entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProfilePicture implements Parcelable{
+public class PictureResolution implements Parcelable{
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public ProfilePicture createFromParcel(Parcel in) {
-            return new ProfilePicture(in);
+        public PictureResolution createFromParcel(Parcel in) {
+            return new PictureResolution(in);
         }
 
-        public ProfilePicture[] newArray(int size) {
-            return new ProfilePicture[size];
+        public PictureResolution[] newArray(int size) {
+            return new PictureResolution[size];
         }
     };
 
@@ -32,7 +31,7 @@ public class ProfilePicture implements Parcelable{
     @Expose
     private Picture fullScreenPicture;
 
-    public ProfilePicture(Parcel in) {
+    public PictureResolution(Parcel in) {
 
         this.id = in.readString();
         this.orignalPicture = (Picture) in.readParcelable(Picture.class.getClassLoader());
