@@ -16,10 +16,12 @@ import android.widget.Button;
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.adapters.PassengerAdapter;
 import com.easy.fly.flyeasy.common.Response;
+import com.easy.fly.flyeasy.common.SessionManager;
 import com.easy.fly.flyeasy.db.models.Bonuse;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.di.Injectable;
 import com.easy.fly.flyeasy.dto.PassengerDto;
+import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
 
 import java.math.BigDecimal;
@@ -45,17 +47,21 @@ public class PassengerFragment extends Fragment implements Injectable {
 
     private PassengerAdapter adapter;
 
-    private String authHeader;
+    //private String authHeader;
 
     private int ticketNumber;
 
-    private long flightId;
+    private long flightBookId;
 
     private long travelClassId;
 
     private String totalPriceTicket;
 
     private BookingViewModel viewModel;
+
+    private SessionManager sessionManager;
+
+    private String userAthenticationHeader;
 
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
@@ -77,13 +83,15 @@ public class PassengerFragment extends Fragment implements Injectable {
         View inflate = inflater.inflate(R.layout.fragment_passenger, container, false);
         ButterKnife.bind(this,inflate);
 
+        sessionManager = new SessionManager(getContext());
+
         initKey();
 
         data = new ArrayList<>();
         for (int i =0 ; i<ticketNumber;i++){
             data.add(new PassengerDto("","",""));
         }
-        adapter = new PassengerAdapter(data,getContext(),authHeader);
+        adapter = new PassengerAdapter(data,getContext());
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -95,7 +103,7 @@ public class PassengerFragment extends Fragment implements Injectable {
                 ArrayList<PassengerDto> passengers = adapter.getPassengers();
                 System.out.println(passengers.toArray());
 
-                viewModel.addPassenger(authHeader,flightId,travelClassId,passengers);
+                viewModel.addPassenger(userAthenticationHeader,flightBookId,travelClassId,passengers);
                 viewModel.response().observe(getActivity(),response->processResponse(response,totalPriceTicket,travelClassId));
 
             }
@@ -105,7 +113,7 @@ public class PassengerFragment extends Fragment implements Injectable {
         return inflate;
     }
 
-    private void processResponse(Response response, String totalPrice, long travelClassId) {
+    private void processResponse(Response response, String totalPriceTicket, long travelClassId) {
 
         switch (response.status) {
             case LOADING:
@@ -118,10 +126,10 @@ public class PassengerFragment extends Fragment implements Injectable {
                 FlightBooking flightBooking = (FlightBooking) response.data;
                 Bundle bundle = new Bundle();
 
-                bundle.putString("AUTORIZATION",authHeader);
+                //bundle.putString("AUTORIZATION",authHeader);
                 bundle.putParcelable("FLIGHT_BOOKING",flightBooking);
                 bundle.putString("TRAVEL_CLASS_ID" ,new Long(travelClassId).toString());
-                bundle.putString("TOTAL_PRICE_TICKET",totalPrice);
+                bundle.putString("TOTAL_PRICE_TICKET",totalPriceTicket);
 
 
                 PaymentFragment paymentFragment = new PaymentFragment();
@@ -141,9 +149,10 @@ public class PassengerFragment extends Fragment implements Injectable {
 
 
     private void  initKey(){
-        authHeader = getArguments().getString("AUTORIZATION");
+        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
+       // authHeader = getArguments().getString("AUTORIZATION");
         ticketNumber = getArguments().getInt("TICKET_NUMBER");
-        flightId = getArguments().getLong("FLIGHT_ID");
+        flightBookId = getArguments().getLong("FLIGHT_BOOK_ID");
         travelClassId = getArguments().getLong("TRAVEL_CLASS_ID");
         totalPriceTicket = getArguments().getString("TOTAL_PRICE_TICKET");
     }

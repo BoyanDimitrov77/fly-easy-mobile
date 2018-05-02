@@ -3,7 +3,6 @@ package com.easy.fly.flyeasy.activities;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,24 +16,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.easy.fly.flyeasy.R;
-import com.easy.fly.flyeasy.utils.DateFormater;
 import com.easy.fly.flyeasy.adapters.FlightAdapter;
 import com.easy.fly.flyeasy.common.Response;
-import com.easy.fly.flyeasy.db.models.Flight;
-
+import com.easy.fly.flyeasy.common.SessionManager;
+import com.easy.fly.flyeasy.db.models.CombineModel;
 import com.easy.fly.flyeasy.dto.SearchDto;
 import com.easy.fly.flyeasy.fragments.DatePickerFragment;
+import com.easy.fly.flyeasy.utils.DateFormater;
+import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.HomeViewModel;
 
-
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -47,7 +44,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class HomeActivity extends AppCompatActivity implements HasSupportFragmentInjector,DatePickerDialog.OnDateSetListener {
 
-    private String authHeader;
+    private String userAthenticationHeader;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -78,8 +75,10 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
     @BindView(R.id.ratingSwitch)
     Switch ratingSwitch;
 
-    private ArrayList<Flight> data;
+    private CombineModel data;
     private FlightAdapter adapter;
+
+    private SessionManager sessionManager;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -91,7 +90,10 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
                 case R.id.navigation_home:
                     startActivity(new Intent(getApplicationContext(),HomeActivity.class));
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_hotel:
+                    Intent intent = new Intent(getApplicationContext(),HotelActivity.class);
+                    intent.putExtra("HOTEL_SCREEN_SELECTED","hotelHomeScreen");
+                    startActivity(intent);
                     return true;
                 case R.id.navigation_notifications:
                     return true;
@@ -107,17 +109,21 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel.class);
         ButterKnife.bind(this);
 
+        sessionManager = new SessionManager(getApplicationContext());
 
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        authHeader = getIntent().getStringExtra("AUTORIZATION");
+        //authHeader = getIntent().getStringExtra("AUTORIZATION");
+        //sessionManager.checkLogin();
 
+        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
 
-        viewModel.allFlights(authHeader);
+        viewModel.allFlights(userAthenticationHeader);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setSelectedItemId(R.id.navigation_home);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         selectedDate.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +144,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
                 Boolean sortByPrice= priceSwitch.isChecked();
                 Boolean sortByRating = ratingSwitch.isChecked();
 
-                viewModel.searchFlights(authHeader,new SearchDto(locationFrom,locationTo,date,sortByPrice,sortByRating));
+                viewModel.searchFlights(userAthenticationHeader,new SearchDto(locationFrom,locationTo,date,sortByPrice,sortByRating));
             }
         });
         viewModel.response().observe(this,response -> processResponse(response));
@@ -152,8 +158,8 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
                 break;
 
             case SUCCESS:
-                data = (ArrayList<Flight>) response.data;
-                adapter = new FlightAdapter(data,getApplicationContext(),authHeader);
+                data = (CombineModel) response.data;
+                adapter = new FlightAdapter(data,getApplicationContext());
                 recyclerView.setAdapter(adapter);
                 break;
 

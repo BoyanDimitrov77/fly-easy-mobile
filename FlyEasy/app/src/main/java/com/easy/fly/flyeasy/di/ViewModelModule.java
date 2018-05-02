@@ -10,6 +10,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.easy.fly.flyeasy.viewmodel.AppViewModelFactory;
 import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
 import com.easy.fly.flyeasy.viewmodel.HomeViewModel;
+import com.easy.fly.flyeasy.viewmodel.HotelViewModel;
 import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
 
 import dagger.Binds;
@@ -32,6 +33,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BookingViewModel.class)
     abstract ViewModel bindBookingViewModel(BookingViewModel bookingViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HotelViewModel.class)
+    abstract ViewModel bindHotelViewModel(HotelViewModel hotelViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(AppViewModelFactory factory);

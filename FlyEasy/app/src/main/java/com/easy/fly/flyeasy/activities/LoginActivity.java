@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.common.Response;
+import com.easy.fly.flyeasy.common.SessionManager;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
 
@@ -72,6 +73,8 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
 
+    private SessionManager sessionManager;
+
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -82,6 +85,8 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(RegisterUserViewModel.class);
+
+        sessionManager = new SessionManager(getApplicationContext());
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -126,6 +131,8 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         String base = email + ":" + password;
         authHeader = "Basic " + Base64.encodeToString(base.getBytes(),Base64.NO_WRAP);
 
+        sessionManager.createLoginSessiong(email,password);
+
         viewModel.loginUser(authHeader);
         viewModel.response().observe(this,response->processResponse(response,progressDialog));
 
@@ -153,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
                 System.out.println(((User)response.data).getEmail());
                 progressDialog.dismiss();
                 Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-                intent.putExtra("AUTORIZATION",authHeader);
+                //intent.putExtra("AUTORIZATION",authHeader);
                 startActivity(intent);
                 break;
 

@@ -21,12 +21,12 @@ public class PassengerAdapter extends RecyclerView.Adapter<PassengerAdapter.View
 
     private ArrayList<PassengerDto> passengers;
     private Context context;
-    private String authorization;
+    //private String authorization;
 
-    public PassengerAdapter(ArrayList<PassengerDto> passengers,Context context,String authorizaztion){
+    public PassengerAdapter(ArrayList<PassengerDto> passengers,Context context){
         this.passengers = passengers;
         this.context = context;
-        this.authorization= authorization;
+        //this.authorization= authorization;
     }
 
     @NonNull

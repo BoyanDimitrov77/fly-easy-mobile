@@ -2,6 +2,7 @@ package com.easy.fly.flyeasy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -20,31 +21,47 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.activities.BookingActivity;
 import com.easy.fly.flyeasy.activities.HomeActivity;
+import com.easy.fly.flyeasy.common.HeaderAtuhenticationGlide;
+import com.easy.fly.flyeasy.db.models.BasicModel;
+import com.easy.fly.flyeasy.db.models.CombineModel;
 import com.easy.fly.flyeasy.db.models.Flight;
+import com.easy.fly.flyeasy.di.GlideApp;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.StatsSnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
+
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder> {
 
     private ArrayList<Flight> flights;
+    private String accesTokenGD;
     private Context context;
     private String authorization;
 
-    public FlightAdapter (ArrayList<Flight> flights,Context context,String authorization){
-        this.flights = flights;
+    public FlightAdapter (CombineModel data, Context context){
+        this.flights = (ArrayList<Flight>) data.getDataT1();
+        this.accesTokenGD = ((BasicModel) data.getDataT2()).getData();
         this.context = context;
-        this.authorization = authorization;
+        //this.authorization = authorization;
     }
 
     @NonNull
@@ -69,50 +86,50 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
             public void onClick(View v) {
                 Intent intent = new Intent(context, BookingActivity.class);
                 intent.putExtra("FLIGHT",flights.get(position));
-                intent.putExtra("AUTORIZATION",authorization);
+                intent.putExtra("ACCES_TOCKENT_GD",accesTokenGD);
+                //intent.putExtra("AUTORIZATION",authorization);
                 context.startActivity(intent);
 
             }
         });
+
 
 /*        OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request newRequest = chain.request().newBuilder()
-                        .addHeader("Authorization", "Bearer ya29.GlycBbDorEvD_-rnDgRa9pkPJ2e2sQsXmigEsxHBE-rWakIK-ZLyjGtLG1FNbL9x09AGhs2iLZez0xA-aOV0_chdYqDkWxlOBkQU4vH-HfIMfwZ9rNjwtONn88Mv-w")
+                                .addHeader("Authorization", "Bearer "+accesTokenGD)
                                 .build();
                         return chain.proceed(newRequest);
                     }
                 })
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
                 .build();
 
 
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
                 .loggingEnabled(true)
-                .build();*/
+                .build();
 
-        Picasso.get()
+        picasso
                 .load("https://" + flights.get(position).getAirLine().getLogo().getThumbnailPicture().getValue())
+                //.load("http://i.imgur.com/DvpvklR.png")
                 .placeholder(R.drawable.airplane_icon)
                 .error(R.drawable.airplane_icon)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(holder.airLineLogo);
-        /*StatsSnapshot picassoStats = picasso.getSnapshot();
+
+        StatsSnapshot picassoStats = picasso.getSnapshot();
 
         Log.d("Picasso Stats", picassoStats.toString());*/
 
 //Glide
-/*        LazyHeaders auth = new LazyHeaders.Builder() // can be cached in a field and reused
-                .addHeader("Authorization", "Bearer ya29.GlycBQ1ZYZXT3ug5O9oa0qnjOp7M-9-vSC0zWGy0KgyuhKyiZddyUPtcxb465RVP46nhA5W1Q41wzNsEHYUsd3ORsz0RSS_4GX7wh7Q-yAzbu9afEKzq1ADv4S9iLw")
-                .build();
-
-        GlideApp.with(context)
-                //.load(new GlideUrl("https://" + flights.get(position).getAirLine().getLogo().getThumbnailPicture().getValue(), auth)) // GlideUrl is created anyway so there's no extra objects allocated
-                .load("http://i.imgur.com/DvpvklR.png")
-                .into(holder.airLineLogo);*/
+        Glide.with(context)
+                .load(HeaderAtuhenticationGlide.loadUrl(flights.get(position).getAirLine().getLogo().getThumbnailPicture().getValue(),accesTokenGD)) // GlideUrl is created anyway so there's no extra objects allocated
+                .into(holder.airLineLogo);
 
 
     }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.easy.fly.flyeasy.AppExecutors;
 import com.easy.fly.flyeasy.db.dao.UserDao;
+import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.UserDto;
 import com.easy.fly.flyeasy.interfaces.UserWebService;
@@ -41,6 +42,10 @@ public class UserRepository {
 
     public Observable<User> authenticate(String authorization){
         return userWebService.authenticateUser(authorization);
+    }
+
+    public Observable<BasicModel>getAccessTokenGD(String authorization){
+        return userWebService.getAccessTokenGD(authorization);
     }
 
 
