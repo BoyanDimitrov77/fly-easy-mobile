@@ -1,6 +1,10 @@
 package com.easy.fly.flyeasy.activities;
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -9,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,12 +29,17 @@ import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.adapters.FlightAdapter;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.common.SessionManager;
+import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.CombineModel;
+import com.easy.fly.flyeasy.db.models.User;
+import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.dto.SearchDto;
 import com.easy.fly.flyeasy.fragments.DatePickerFragment;
 import com.easy.fly.flyeasy.utils.DateFormater;
+import com.easy.fly.flyeasy.utils.DrawerUtil;
 import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.HomeViewModel;
+import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -41,6 +51,10 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class HomeActivity extends AppCompatActivity implements HasSupportFragmentInjector,DatePickerDialog.OnDateSetListener {
 
@@ -80,6 +94,9 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
     private SessionManager sessionManager;
 
+    private UserDB userFromDB;
+
+    private final MutableLiveData<UserDB> response = new MutableLiveData<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -104,6 +121,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel.class);
@@ -111,14 +129,20 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
         sessionManager = new SessionManager(getApplicationContext());
 
+        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
+
+        //get user from Database
+        Observable.fromCallable(() -> viewModel.getUserFromDB(UserUtil.getUserId(sessionManager.getUserDeatails())))
+                .subscribeOn(Schedulers.io())
+                //.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data->setUserFromDB(data));
+
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
         //authHeader = getIntent().getStringExtra("AUTORIZATION");
         //sessionManager.checkLogin();
-
-        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
 
         viewModel.allFlights(userAthenticationHeader);
 
@@ -149,6 +173,8 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         });
         viewModel.response().observe(this,response -> processResponse(response));
 
+        //NavigationDrawer
+        DrawerUtil.getDrawer(this,userFromDB,userAthenticationHeader);
     }
 
     private void processResponse(Response response) {
@@ -168,6 +194,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         }
     }
 
+
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
@@ -182,5 +209,9 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
         selectedDate.setText(currentDate);
 
+    }
+
+    public void setUserFromDB(UserDB userFromDB) {
+        this.userFromDB = userFromDB;
     }
 }

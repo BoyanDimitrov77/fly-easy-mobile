@@ -3,8 +3,7 @@
     package="com.easy.fly.flyeasy">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -31,12 +30,12 @@
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.BookingActivity" />
         <activity android:name=".activities.HotelActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".activities.UserProfileActivity" />
+        <activity android:name=".activities.SettingActivity"></activity>
     </application>
 
 </manifest>

@@ -7,15 +7,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 
-
-import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
-
-import javax.inject.Inject;
-
-import dagger.Component;
-import dagger.Module;
-import dagger.Provides;
 
 
 /**
@@ -26,9 +18,9 @@ import dagger.Provides;
 public interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void save(UserDB user);
+    void insert(UserDB user);
 
     @Query("SELECT * FROM userdb WHERE id = :userId")
-    LiveData<UserDB> load(String userId);
+    UserDB load(long userId);
 
 }

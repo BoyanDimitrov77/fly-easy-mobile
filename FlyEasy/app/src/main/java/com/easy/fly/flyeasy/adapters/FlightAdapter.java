@@ -2,53 +2,24 @@ package com.easy.fly.flyeasy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.load.model.LazyHeaders;
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.activities.BookingActivity;
-import com.easy.fly.flyeasy.activities.HomeActivity;
 import com.easy.fly.flyeasy.common.HeaderAtuhenticationGlide;
 import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.CombineModel;
 import com.easy.fly.flyeasy.db.models.Flight;
-import com.easy.fly.flyeasy.di.GlideApp;
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.StatsSnapshot;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Interceptor;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder> {
 

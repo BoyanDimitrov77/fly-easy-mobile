@@ -11,7 +11,7 @@ import com.easy.fly.flyeasy.viewmodel.AppViewModelFactory;
 import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
 import com.easy.fly.flyeasy.viewmodel.HomeViewModel;
 import com.easy.fly.flyeasy.viewmodel.HotelViewModel;
-import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
+import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -21,8 +21,8 @@ import dagger.multibindings.IntoMap;
 abstract class ViewModelModule {
     @Binds
     @IntoMap
-    @ViewModelKey(RegisterUserViewModel.class)
-    abstract ViewModel bindRegisterUserViewModel(RegisterUserViewModel registerUserViewModel);
+    @ViewModelKey(UserViewModel.class)
+    abstract ViewModel bindRegisterUserViewModel(UserViewModel userViewModel);
 
     @Binds
     @IntoMap

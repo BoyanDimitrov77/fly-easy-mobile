@@ -23,4 +23,12 @@ public class HeaderAtuhenticationGlide {
        return new GlideUrl("https://"+url,getInstance(accesTokenGD));
     }
 
+    public static GlideUrl loadUrl(String url){
+        return new GlideUrl("https://"+url,getInstance());
+    }
+
+    private static LazyHeaders getInstance(){
+        return auth;
+    }
+
 }

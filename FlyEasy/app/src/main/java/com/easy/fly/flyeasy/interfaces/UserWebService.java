@@ -8,6 +8,7 @@ import com.easy.fly.flyeasy.db.models.HotelBook;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.PassengerDto;
 import com.easy.fly.flyeasy.dto.SearchDto;
+import com.easy.fly.flyeasy.dto.UpdateUserInformationDto;
 import com.easy.fly.flyeasy.dto.UserDto;
 
 import java.util.List;
@@ -30,6 +31,9 @@ public interface UserWebService {
 
     @GET("authenticate")
     Observable<User> authenticateUser(@Header("Authorization") String authorization);
+
+    @GET("users/getUser")
+    Observable<User>getUser(@Header("Authorization") String authorization);
 
     @GET("flight/all")
     Observable<List<Flight>> getAllFlihght(@Header("Authorization") String authorization);
@@ -60,4 +64,7 @@ public interface UserWebService {
 
     @GET("hotel/all")
     Observable<List<Hotel>> getAllHotel(@Header("Authorization") String authorization);
+
+    @POST("users/updatePersonalInformation")
+    Observable<User>updatePersonalInformation(@Header("Authorization") String authorization,@Body UpdateUserInformationDto updateUserInformationDto);
 }

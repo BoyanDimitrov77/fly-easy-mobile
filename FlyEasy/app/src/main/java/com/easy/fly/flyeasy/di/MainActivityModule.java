@@ -8,7 +8,9 @@ import com.easy.fly.flyeasy.activities.BookingActivity;
 import com.easy.fly.flyeasy.activities.HomeActivity;
 import com.easy.fly.flyeasy.activities.HotelActivity;
 import com.easy.fly.flyeasy.activities.LoginActivity;
+import com.easy.fly.flyeasy.activities.SettingActivity;
 import com.easy.fly.flyeasy.activities.SignUpActivity;
+import com.easy.fly.flyeasy.activities.UserProfileActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -32,6 +34,14 @@ public abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
     abstract HotelActivity contributeHotelActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    abstract UserProfileActivity contributeUserProfileActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    abstract SettingActivity contributeSettingActivity();
+
+
 
 
 }

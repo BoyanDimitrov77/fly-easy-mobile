@@ -2,22 +2,36 @@ package com.easy.fly.flyeasy.db.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.easy.fly.flyeasy.dto.UserDto;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Builder;
+import lombok.ToString;
 
 /**
  * Created by boyan.dimitrov on 18.3.2018 г..
  */
 
+@ToString
 @Entity
 @Builder
-public class UserDB {
+public class UserDB implements Parcelable{
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public UserDB createFromParcel(Parcel in) {
+            return new UserDB(in);
+        }
+
+        public UserDB[] newArray(int size) {
+            return new UserDB[size];
+        }
+    };
     @PrimaryKey
     @SerializedName("id")
-    private int id;
+    private long id;
     @SerializedName("username")
     private String username;
     @SerializedName("email")
@@ -31,13 +45,24 @@ public class UserDB {
     @SerializedName("location")
     private String location;
 
-    public UserDB(int id, String username, String email, String fullName, String profilePicture, String birthDate, String location){
+    public UserDB(long id, String username, String email, String fullName, String profilePicture, String birthDate, String location){
         this.id=id;
         this.username=username;
-        this.fullName=fullName;
+        this.email = email;
+        this.fullName= fullName;
         this.profilePicture = profilePicture;
         this.birthDate = birthDate;
         this.location = location;
+    }
+
+    public UserDB(Parcel in) {
+        this.id = in.readLong();
+        this.username = in.readString();
+        this.email = in.readString();
+        this.fullName = in.readString();
+        this.profilePicture = in.readString();
+        this.birthDate = in.readString();
+        this.location = in.readString();
     }
 
     public static UserDB of (UserDto user){
@@ -52,11 +77,23 @@ public class UserDB {
                 .build();
     }
 
-    public int getId() {
+    public static UserDB of(User user){
+        return UserDB.builder()
+                .id(user.getId())
+                .username(user.getUserName())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .profilePicture(user.getProfilePicture().getThumbnailPicture().getValue())
+                .birthDate(user.getBirthDate())
+                .location(user.getLocation().getName())
+                .build();
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -106,5 +143,25 @@ public class UserDB {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeLong(this.id);
+        dest.writeString(this.username);
+        dest.writeString(this.email);
+        dest.writeString(this.fullName);
+        dest.writeString(this.profilePicture);
+        dest.writeString(this.birthDate);
+        dest.writeString(this.location);
+
+
+
     }
 }

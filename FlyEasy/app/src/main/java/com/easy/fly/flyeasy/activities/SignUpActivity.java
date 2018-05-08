@@ -18,7 +18,7 @@ import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.UserDto;
-import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
+import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
 import javax.inject.Inject;
 
@@ -35,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity implements HasSupportFragm
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
-    private RegisterUserViewModel viewModel;
+    private UserViewModel viewModel;
 
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
@@ -54,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity implements HasSupportFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(RegisterUserViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
         ButterKnife.bind(this);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
