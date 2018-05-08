@@ -1,6 +1,7 @@
 package com.easy.fly.flyeasy.activities;
 
 import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,10 +11,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.easy.fly.flyeasy.R;
+import com.easy.fly.flyeasy.adapters.FlightAdapter;
+import com.easy.fly.flyeasy.common.Response;
+import com.easy.fly.flyeasy.common.SessionManager;
+import com.easy.fly.flyeasy.db.models.CombineModel;
 import com.easy.fly.flyeasy.db.models.Flight;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.fragments.UserPersonalInformationFragment;
+import com.easy.fly.flyeasy.utils.UserUtil;
+import com.easy.fly.flyeasy.viewmodel.HomeViewModel;
 import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
 import javax.inject.Inject;
@@ -25,6 +32,17 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 
 public class UserProfileActivity extends AppCompatActivity implements HasSupportFragmentInjector{
+
+    private UserViewModel viewModel;
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
+
+    private SessionManager sessionManager;
+
+    private String userAthenticationHeader;
+
+    private String key;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -54,41 +72,64 @@ public class UserProfileActivity extends AppCompatActivity implements HasSupport
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
         ButterKnife.bind(this);
+
+        sessionManager = new SessionManager(this);
+
+        initKey();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setSelectedItemId(R.id.navigation_home);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        viewModel.getUser(userAthenticationHeader);
+        viewModel.response().observe(this,response -> processResponse(response));
 
-        String key = (String)getIntent().getExtras().get("KEY");
+    }
 
-        switch(key){
-            case "USER_PERSONAL_INFORMATION":
-                UserDB user = (UserDB)getIntent().getExtras().getParcelable("USER");
+    private void processResponse(Response response) {
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("USER",user);
-                bundle.putBoolean("IS_EDIT",false);
+        switch (response.status) {
+            case LOADING:
+                break;
 
-                UserPersonalInformationFragment userPersonalInformationFragment = new UserPersonalInformationFragment();
-                userPersonalInformationFragment.setArguments(bundle);
-                //start fragment
-                android.support.v4.app.FragmentManager fragmentManager = this.getSupportFragmentManager();
-                int containerId = R.id.container;
-                fragmentManager.beginTransaction()
-                        .replace(containerId, userPersonalInformationFragment)
-                        .commitAllowingStateLoss();
+            case SUCCESS:
+                switch(key){
+                    case "USER_PERSONAL_INFORMATION":
+                        //UserDB user = (UserDB)getIntent().getExtras().getParcelable("USER");
+                        User user = (User)response.data;
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("USER",user);
+                        bundle.putBoolean("IS_EDIT",false);
+
+                        UserPersonalInformationFragment userPersonalInformationFragment = new UserPersonalInformationFragment();
+                        userPersonalInformationFragment.setArguments(bundle);
+                        //start fragment
+                        android.support.v4.app.FragmentManager fragmentManager = this.getSupportFragmentManager();
+                        int containerId = R.id.container;
+                        fragmentManager.beginTransaction()
+                                .replace(containerId, userPersonalInformationFragment)
+                                .commitAllowingStateLoss();
+
+                        break;
+                }
 
                 break;
 
+            case ERROR:
+                break;
         }
-
     }
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    private void initKey(){
+        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
+        key = (String)getIntent().getExtras().get("KEY");
     }
 }

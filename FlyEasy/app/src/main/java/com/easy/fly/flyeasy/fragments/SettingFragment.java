@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.common.HeaderAtuhenticationGlide;
+import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.di.Injectable;
 import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
@@ -59,10 +60,10 @@ public class SettingFragment extends Fragment implements Injectable {
 
         ButterKnife.bind(this,inflate);
 
-        UserDB user = (UserDB)getArguments().getParcelable("USER");
+        User user = (User)getArguments().getParcelable("USER");
 
         Glide.with(getContext())
-                .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture()))// GlideUrl is created anyway so there's no extra objects allocated
+                .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture().getThumbnailPicture().getValue()))// GlideUrl is created anyway so there's no extra objects allocated
                 .into(profilePicture);
 
         updatePesonalInformation.setOnClickListener(new View.OnClickListener() {

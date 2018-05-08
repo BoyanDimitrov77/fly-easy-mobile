@@ -9,6 +9,7 @@ import android.view.View;
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.activities.SettingActivity;
 import com.easy.fly.flyeasy.activities.UserProfileActivity;
+import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.fragments.UserPersonalInformationFragment;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -27,7 +28,7 @@ public class DrawerUtil {
 
     private static  String accesTokenGD;
 
-    public static void getDrawer(final Activity activity, UserDB user, String userAthenticationHeader) {
+    public static void getDrawer(final Activity activity, UserDB user) {
 
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem drawerEmptyItem= new PrimaryDrawerItem().withIdentifier(0).withName("");
@@ -53,7 +54,7 @@ public class DrawerUtil {
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.ic_launcher_background)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(user.getFullName()).withEmail(user.getEmail()).withIcon(R.drawable.contacts_icons)
+                        new ProfileDrawerItem().withName(user.getFullName()== null ? "" :user.getFullName()).withEmail(user.getEmail()== null ? "" : user.getEmail() ).withIcon(R.drawable.contacts_icons)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -127,7 +128,6 @@ public class DrawerUtil {
 
                             Intent intent = new Intent(activity, UserProfileActivity.class);
                             intent.putExtra("KEY","USER_PERSONAL_INFORMATION");
-                            intent.putExtra("USER",user);
                             view.getContext().startActivity(intent);
 
                         }else if(drawerItem.getIdentifier() == 2){
@@ -138,7 +138,6 @@ public class DrawerUtil {
 
                         }else if(drawerItem.getIdentifier() == 5){
                             Intent intent = new Intent(activity, SettingActivity.class);
-                            intent.putExtra("USER",user);
                             view.getContext().startActivity(intent);
 
                         }

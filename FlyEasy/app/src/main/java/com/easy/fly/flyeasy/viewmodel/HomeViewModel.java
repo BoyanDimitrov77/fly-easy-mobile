@@ -58,16 +58,15 @@ public class HomeViewModel  extends ViewModel{
 
     public void getUser(String authorization){
         Observable<User> user = userRepository.getUser(authorization);
-        Observable<BasicModel> accessTokenGD = userRepository.getAccessTokenGD(authorization);
-        loadUserDetails(user,accessTokenGD);
+        loadUserDetails(user);
     }
 
     public UserDB getUserFromDB(long userId){
         return userRepository.loadUser(userId);
     }
 
-    private void loadUserDetails(Observable<User> user, Observable<BasicModel> accessTokenGD) {
-        new NetworkBoundResponse().getResponse(user,accessTokenGD,disposables,response);
+    private void loadUserDetails(Observable<User> user) {
+        new NetworkBoundResponse().getResponse(user,disposables,response);
     }
 
     private void loadFlights(Observable<List<Flight>> allFlights) {

@@ -24,9 +24,12 @@ import com.easy.fly.flyeasy.adapters.HotelAdapter;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.common.SessionManager;
 import com.easy.fly.flyeasy.db.models.CombineModel;
+import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.fragments.HotelListFragment;
+import com.easy.fly.flyeasy.utils.DrawerUtil;
 import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.HotelViewModel;
+import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
 import javax.inject.Inject;
 
@@ -35,12 +38,26 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class HotelActivity extends AppCompatActivity implements HasSupportFragmentInjector{
 
     private String hotelScreenSelected;
 
     private long locationId;
+
+    private UserViewModel viewModel;
+
+    private SessionManager sessionManager;
+
+    private String userAthenticationHeader;
+
+    private UserDB userFromDB;
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -72,8 +89,21 @@ public class HotelActivity extends AppCompatActivity implements HasSupportFragme
         setContentView(R.layout.activity_hotel);
         ButterKnife.bind(this);
 
+        //viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
+
+        //sessionManager = new SessionManager(this);
 
         initKey();
+
+/*        //get user from Database
+        Observable.fromCallable(() -> viewModel.getUserFromDB(UserUtil.getUserId(sessionManager.getUserDeatails())))
+                .subscribeOn(Schedulers.io())
+                //.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data->setUserFromDB(data));*/
+
+        //NavigationDrawer
+        //DrawerUtil.getDrawer(this,userFromDB);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setSelectedItemId(R.id.navigation_hotel);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -106,7 +136,11 @@ public class HotelActivity extends AppCompatActivity implements HasSupportFragme
         if(getIntent().getExtras().get("HOTEL_LOCATION_ID")!=null){
             locationId = Long.valueOf(getIntent().getExtras().get("HOTEL_LOCATION_ID").toString());
         }
+        //userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
 
+    }
 
+    private void setUserFromDB(UserDB userFromDB) {
+        this.userFromDB = userFromDB;
     }
 }

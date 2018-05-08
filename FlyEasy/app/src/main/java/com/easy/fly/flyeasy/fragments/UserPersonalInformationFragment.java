@@ -73,7 +73,7 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
 
     private boolean isEdit;
 
-    private UserDB user;
+    private User user;
 
     private UserViewModel viewModel;
 
@@ -115,12 +115,12 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
         ButterKnife.bind(this,binding.getRoot());
 
         userFullName.setText(user.getFullName());
-        userLocation.setText(user.getLocation());
+        userLocation.setText(user.getLocation().getName());
         userEmail.setText(user.getEmail());
         userBirthDate.setText(DateFormater.formatDateForUI(user.getBirthDate().toString()));
 
         Glide.with(getContext())
-                .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture()))// GlideUrl is created anyway so there's no extra objects allocated
+                .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture().getThumbnailPicture().getValue()))// GlideUrl is created anyway so there's no extra objects allocated
                 .into(profilePicture);
 
         userBirthDate.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +179,7 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
 
     private void initKey(){
         isEdit = getArguments().getBoolean("IS_EDIT");
-        user = (UserDB)getArguments().getParcelable("USER");
+        user = (User)getArguments().getParcelable("USER");
         userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
     }
 

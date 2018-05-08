@@ -174,7 +174,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         viewModel.response().observe(this,response -> processResponse(response));
 
         //NavigationDrawer
-        DrawerUtil.getDrawer(this,userFromDB,userAthenticationHeader);
+        DrawerUtil.getDrawer(this,userFromDB);
     }
 
     private void processResponse(Response response) {
@@ -211,7 +211,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
     }
 
-    public void setUserFromDB(UserDB userFromDB) {
+    private void setUserFromDB(UserDB userFromDB) {
         this.userFromDB = userFromDB;
     }
 }

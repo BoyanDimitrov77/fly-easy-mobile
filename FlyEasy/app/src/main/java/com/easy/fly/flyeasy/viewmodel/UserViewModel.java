@@ -63,6 +63,11 @@ public class UserViewModel extends ViewModel{
         loadUserUpdateInformation(updateUserInformationDtoObservable);
     }
 
+    public void getUser(String authorization){
+        Observable<User> user = userRepository.getUser(authorization);
+        loadUserDetails(user);
+    }
+
     public UserDB getUserFromDB(long userId){
         return userRepository.loadUser(userId);
     }
