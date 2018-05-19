@@ -1,38 +1,16 @@
 package com.easy.fly.flyeasy.activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -42,7 +20,7 @@ import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.common.SessionManager;
 import com.easy.fly.flyeasy.db.models.User;
-import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
+import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
 import javax.inject.Inject;
 
@@ -51,8 +29,8 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
-
-import static android.Manifest.permission.READ_CONTACTS;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * A login screen that offers login via email/password.
@@ -68,12 +46,16 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
     @BindView(R.id.btn_login) Button _loginButton;
     @BindView(R.id.link_signup) TextView _signupLink;
 
-    private RegisterUserViewModel viewModel;
+    private UserViewModel viewModel;
 
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
 
     private SessionManager sessionManager;
+
+    private String email;
+
+    private String password;
 
 
     @Inject
@@ -84,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(RegisterUserViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
 
         sessionManager = new SessionManager(getApplicationContext());
 
@@ -125,13 +107,11 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+         email = _emailText.getText().toString();
+         password = _passwordText.getText().toString();
 
         String base = email + ":" + password;
         authHeader = "Basic " + Base64.encodeToString(base.getBytes(),Base64.NO_WRAP);
-
-        sessionManager.createLoginSessiong(email,password);
 
         viewModel.loginUser(authHeader);
         viewModel.response().observe(this,response->processResponse(response,progressDialog));
@@ -159,6 +139,11 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
                 onLoginSuccess();
                 System.out.println(((User)response.data).getEmail());
                 progressDialog.dismiss();
+                sessionManager.createLoginSessiong(email,password,((User)response.data).getId());
+
+                //save user in Database
+                Observable.fromCallable(() -> viewModel.saveUserInDB((User) response.data)).subscribeOn(Schedulers.io()).subscribe();
+
                 Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
                 //intent.putExtra("AUTORIZATION",authHeader);
                 startActivity(intent);

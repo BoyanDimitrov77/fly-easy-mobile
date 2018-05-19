@@ -5,12 +5,15 @@ package com.easy.fly.flyeasy.di;
  */
 
 import com.easy.fly.flyeasy.fragments.BookingFragment;
+import com.easy.fly.flyeasy.fragments.ChangePasswordFragment;
 import com.easy.fly.flyeasy.fragments.HotelDetailsFragment;
 import com.easy.fly.flyeasy.fragments.HotelListFragment;
 import com.easy.fly.flyeasy.fragments.PassengerFragment;
 import com.easy.fly.flyeasy.fragments.PaymentFragment;
 import com.easy.fly.flyeasy.fragments.PaymentStatusFragment;
 import com.easy.fly.flyeasy.fragments.RegularRegistrationUserFragment;
+import com.easy.fly.flyeasy.fragments.SettingFragment;
+import com.easy.fly.flyeasy.fragments.UserPersonalInformationFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -38,5 +41,14 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract HotelDetailsFragment contributeHotelDetailsFragment();
+
+    @ContributesAndroidInjector
+    abstract UserPersonalInformationFragment contributeUserPersonalInformationFragment();
+
+    @ContributesAndroidInjector
+    abstract SettingFragment contributeSettingFragment();
+
+    @ContributesAndroidInjector
+    abstract ChangePasswordFragment contributeChangePasswordFragment();
 
 }

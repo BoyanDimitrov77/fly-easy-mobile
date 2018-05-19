@@ -1,13 +1,10 @@
 package com.easy.fly.flyeasy.fragments;
 
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +17,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.easy.fly.flyeasy.R;
-import com.easy.fly.flyeasy.adapters.FlightAdapter;
-import com.easy.fly.flyeasy.adapters.PassengerAdapter;
 import com.easy.fly.flyeasy.common.HeaderAtuhenticationGlide;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.common.SessionManager;
@@ -29,21 +24,11 @@ import com.easy.fly.flyeasy.db.models.Flight;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.TravelClass;
 import com.easy.fly.flyeasy.di.Injectable;
-import com.easy.fly.flyeasy.dto.PassengerDto;
 import com.easy.fly.flyeasy.utils.DateFormater;
 import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
-import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
-
-import java.util.ArrayList;
-
 
 import javax.inject.Inject;
 

@@ -3,8 +3,12 @@ package com.easy.fly.flyeasy.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class DateFormater {
+
+    private static Pattern DATE_PATTERN = Pattern.compile(
+            "^\\d{2}-\\d{2}-\\d{4}$");
 
     public static String formatDate(String date){
         if(!date.equals("")){
@@ -41,12 +45,17 @@ public class DateFormater {
     }
 
     public static String formatDateForUI(String date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
+        SimpleDateFormat dateFormatFirst = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormatSecond = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
 
         Date newDate = null;
 
         try {
-            newDate = dateFormat.parse(date);
+            if(DATE_PATTERN.matcher(date).matches()){
+                newDate = dateFormatFirst.parse(date);
+            }else{
+                newDate = dateFormatSecond.parse(date);
+            }
             String newD = newDate.toString();
             System.out.println(newD);
         } catch (ParseException e) {

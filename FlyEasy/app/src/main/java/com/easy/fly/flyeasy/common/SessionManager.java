@@ -27,16 +27,19 @@ public class SessionManager {
 
     public static final String KEY_PASSWORD = "password";
 
+    public static final String KEY_ID = "ID";
+
     public SessionManager(Context context){
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME,PRIVATE_MODE);
         editor  = sharedPreferences.edit();
     }
 
-    public void createLoginSessiong(String email,String password){
+    public void createLoginSessiong(String email,String password,long id){
         editor.putBoolean(IS_LOGIN,true);
         editor.putString(KEY_EMAIL,email);
         editor.putString(KEY_PASSWORD,password);
+        editor.putLong(KEY_ID,id);
 
         editor.commit();
     }
@@ -48,6 +51,8 @@ public class SessionManager {
         user.put(KEY_EMAIL,sharedPreferences.getString(KEY_EMAIL,null));
 
         user.put(KEY_PASSWORD,sharedPreferences.getString(KEY_PASSWORD,null));
+
+        user.put(KEY_ID,String.valueOf(sharedPreferences.getLong(KEY_ID,0)));
 
         return user;
 

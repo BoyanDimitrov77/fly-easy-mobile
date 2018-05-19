@@ -1,26 +1,18 @@
 package com.easy.fly.flyeasy.fragments;
 
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,8 +21,7 @@ import android.widget.Toast;
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.activities.LoginActivity;
 import com.easy.fly.flyeasy.di.Injectable;
-import com.easy.fly.flyeasy.dto.UserDto;
-import com.easy.fly.flyeasy.viewmodel.RegisterUserViewModel;
+import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
 import javax.inject.Inject;
 
@@ -61,7 +52,7 @@ public class RegularRegistrationUserFragment extends Fragment implements Injecta
     @BindView(R.id.btn_signup) Button _signupButton;
     @BindView(R.id.link_login) TextView _loginLink;
 
-    private RegisterUserViewModel viewModel;
+    private UserViewModel viewModel;
 
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
@@ -74,7 +65,7 @@ public class RegularRegistrationUserFragment extends Fragment implements Injecta
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(RegisterUserViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
 
     }
 

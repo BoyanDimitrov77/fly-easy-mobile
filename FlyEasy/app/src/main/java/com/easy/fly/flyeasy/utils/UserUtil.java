@@ -18,4 +18,8 @@ public class UserUtil {
 
         return "Basic " + Base64.encodeToString(base.getBytes(),Base64.NO_WRAP);
     }
+
+    public static long getUserId(HashMap<String,String> userDetails){
+        return Long.valueOf(userDetails.get(SessionManager.KEY_ID));
+    }
 }

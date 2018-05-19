@@ -7,6 +7,8 @@ import com.easy.fly.flyeasy.common.NetworkBoundResponse;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.Flight;
+import com.easy.fly.flyeasy.db.models.User;
+import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.dto.SearchDto;
 import com.easy.fly.flyeasy.repositories.FlightRepository;
 import com.easy.fly.flyeasy.repositories.UserRepository;
@@ -18,7 +20,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class HomeViewModel  extends ViewModel {
+public class HomeViewModel  extends ViewModel{
 
     private FlightRepository flightRepository;
 
@@ -43,9 +45,9 @@ public class HomeViewModel  extends ViewModel {
         return response;
     }
 
-    public void allFlights(String auhtorization){
-        Observable<List<Flight>> allFlights = flightRepository.getAllFlights(auhtorization);
-        Observable<BasicModel> accessTokenGD = userRepository.getAccessTokenGD(auhtorization);
+    public void allFlights(String authorization){
+        Observable<List<Flight>> allFlights = flightRepository.getAllFlights(authorization);
+        Observable<BasicModel> accessTokenGD = userRepository.getAccessTokenGD(authorization);
         loadFlights(allFlights,accessTokenGD);
 
     }
@@ -54,12 +56,25 @@ public class HomeViewModel  extends ViewModel {
         loadFlights(searchFlight);
     }
 
+    public void getUser(String authorization){
+        Observable<User> user = userRepository.getUser(authorization);
+        loadUserDetails(user);
+    }
+
+    public UserDB getUserFromDB(long userId){
+        return userRepository.loadUser(userId);
+    }
+
+    private void loadUserDetails(Observable<User> user) {
+        new NetworkBoundResponse().getResponse(user,disposables,response);
+    }
+
     private void loadFlights(Observable<List<Flight>> allFlights) {
         new NetworkBoundResponse().getResponse(allFlights,disposables,response);
     }
 
     private void loadFlights(Observable<List<Flight>> allFlights, Observable<BasicModel> accessTokenGD) {
-        new NetworkBoundResponse().getResponse(allFlights,accessTokenGD,disposables,response);
+        new NetworkBoundResponse().getResponse(allFlights, accessTokenGD, disposables, response);
 
     }
 }
