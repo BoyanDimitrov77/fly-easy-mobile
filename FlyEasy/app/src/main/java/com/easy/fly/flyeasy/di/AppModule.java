@@ -9,6 +9,7 @@ import android.arch.persistence.room.Room;
 
 import com.easy.fly.flyeasy.db.FlyEasyDatabase;
 import com.easy.fly.flyeasy.db.dao.UserDao;
+import com.easy.fly.flyeasy.interfaces.NewsWebService;
 import com.easy.fly.flyeasy.interfaces.UserWebService;
 
 import javax.inject.Singleton;
@@ -38,6 +39,22 @@ class AppModule {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(UserWebService.class);
+    }
+
+    @Singleton @Provides
+    NewsWebService provideSevice(){
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        return new Retrofit.Builder()
+                .baseUrl("https://newsapi.org/v2/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(NewsWebService.class);
+
     }
 
     @Singleton @Provides

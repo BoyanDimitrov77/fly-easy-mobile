@@ -1,10 +1,7 @@
 package com.easy.fly.flyeasy.activities;
 
 import android.app.DatePickerDialog;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -27,11 +24,11 @@ import android.widget.TextView;
 
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.adapters.FlightAdapter;
+import com.easy.fly.flyeasy.common.NewsCountry;
+import com.easy.fly.flyeasy.common.NewsParametersConstants;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.common.SessionManager;
-import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.CombineModel;
-import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.dto.SearchDto;
 import com.easy.fly.flyeasy.fragments.DatePickerFragment;
@@ -52,8 +49,6 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class HomeActivity extends AppCompatActivity implements HasSupportFragmentInjector,DatePickerDialog.OnDateSetListener {
@@ -112,7 +107,11 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
                     intent.putExtra("HOTEL_SCREEN_SELECTED","hotelHomeScreen");
                     startActivity(intent);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_news:
+                    Intent intentN = new Intent(getApplicationContext(),NewsActivity.class);
+                    intentN.putExtra("CATEGORY", NewsParametersConstants.ALL);
+                    intentN.putExtra("COUNTRY", NewsCountry.USA.toString());
+                    startActivity(intentN);
                     return true;
             }
             return false;
@@ -174,7 +173,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         viewModel.response().observe(this,response -> processResponse(response));
 
         //NavigationDrawer
-        DrawerUtil.getDrawer(this,userFromDB);
+        DrawerUtil.getDrawerProfileNavigation(this,userFromDB);
     }
 
     private void processResponse(Response response) {
