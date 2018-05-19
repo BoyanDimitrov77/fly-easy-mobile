@@ -8,9 +8,11 @@ import com.easy.fly.flyeasy.fragments.BookingFragment;
 import com.easy.fly.flyeasy.fragments.ChangePasswordFragment;
 import com.easy.fly.flyeasy.fragments.HotelDetailsFragment;
 import com.easy.fly.flyeasy.fragments.HotelListFragment;
+import com.easy.fly.flyeasy.fragments.NewsDetailsFragment;
 import com.easy.fly.flyeasy.fragments.PassengerFragment;
 import com.easy.fly.flyeasy.fragments.PaymentFragment;
 import com.easy.fly.flyeasy.fragments.PaymentStatusFragment;
+import com.easy.fly.flyeasy.fragments.ReadArticleFragment;
 import com.easy.fly.flyeasy.fragments.RegularRegistrationUserFragment;
 import com.easy.fly.flyeasy.fragments.SettingFragment;
 import com.easy.fly.flyeasy.fragments.UserPersonalInformationFragment;
@@ -50,5 +52,11 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract ChangePasswordFragment contributeChangePasswordFragment();
+
+    @ContributesAndroidInjector
+    abstract NewsDetailsFragment contributeNewsDetailsFragment();
+
+    @ContributesAndroidInjector
+    abstract ReadArticleFragment contributeReadArticleFragment();
 
 }

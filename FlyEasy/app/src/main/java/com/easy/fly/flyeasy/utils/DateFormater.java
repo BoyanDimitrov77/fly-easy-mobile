@@ -64,4 +64,18 @@ public class DateFormater {
         SimpleDateFormat requiredDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return requiredDateFormat.format(newDate);
     }
+
+    public static String formatDateTimeForUI(String date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Date newDate = null;
+
+        try {
+            newDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat requiredDateFormat = new SimpleDateFormat(" dd-MM-yyyy HH:mm");
+        return requiredDateFormat.format(newDate);
+    }
 }

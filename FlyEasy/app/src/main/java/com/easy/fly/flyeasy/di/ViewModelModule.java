@@ -11,6 +11,7 @@ import com.easy.fly.flyeasy.viewmodel.AppViewModelFactory;
 import com.easy.fly.flyeasy.viewmodel.BookingViewModel;
 import com.easy.fly.flyeasy.viewmodel.HomeViewModel;
 import com.easy.fly.flyeasy.viewmodel.HotelViewModel;
+import com.easy.fly.flyeasy.viewmodel.NewsViewModel;
 import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
 import dagger.Binds;
@@ -38,6 +39,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HotelViewModel.class)
     abstract ViewModel bindHotelViewModel(HotelViewModel hotelViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NewsViewModel.class)
+    abstract ViewModel bindNewsViewModel(NewsViewModel newsViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(AppViewModelFactory factory);

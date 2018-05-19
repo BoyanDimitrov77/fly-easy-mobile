@@ -1,6 +1,5 @@
 package com.easy.fly.flyeasy.activities;
 
-import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -10,25 +9,19 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.DatePicker;
-import android.widget.EditText;
 
 import com.easy.fly.flyeasy.R;
+import com.easy.fly.flyeasy.common.NewsCountry;
+import com.easy.fly.flyeasy.common.NewsParametersConstants;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.common.SessionManager;
 import com.easy.fly.flyeasy.db.models.User;
-import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.fragments.SettingFragment;
-import com.easy.fly.flyeasy.fragments.UserPersonalInformationFragment;
 import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -62,7 +55,11 @@ public class SettingActivity extends AppCompatActivity implements HasSupportFrag
                     intent.putExtra("HOTEL_SCREEN_SELECTED","hotelHomeScreen");
                     startActivity(intent);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_news:
+                    Intent intentN = new Intent(getApplicationContext(),NewsActivity.class);
+                    intentN.putExtra("CATEGORY", NewsParametersConstants.ALL);
+                    intentN.putExtra("COUNTRY", NewsCountry.USA.toString());
+                    startActivity(intentN);
                     return true;
             }
             return false;

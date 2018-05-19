@@ -1,33 +1,29 @@
 package com.easy.fly.flyeasy.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.common.NewsCountry;
 import com.easy.fly.flyeasy.common.NewsParametersConstants;
-import com.easy.fly.flyeasy.common.SessionManager;
-import com.easy.fly.flyeasy.db.models.Flight;
-import com.easy.fly.flyeasy.fragments.BookingFragment;
-import com.easy.fly.flyeasy.utils.UserUtil;
+import com.easy.fly.flyeasy.fragments.NewsDetailsFragment;
+import com.easy.fly.flyeasy.utils.DrawerUtil;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class BookingActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class NewsActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
-    private SessionManager sessionManager;
-
-    private String userAthenticationHeader;
+    private String category;
+    private String countryCode;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -60,37 +56,28 @@ public class BookingActivity extends AppCompatActivity implements HasSupportFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_booking);
-        ButterKnife.bind(this);
+        setContentView(R.layout.activity_news);
 
-        sessionManager = new SessionManager(getApplicationContext());
-
-        userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
-
-        sessionManager.getUserDeatails();
+        initKey();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setSelectedItemId(R.id.navigation_news);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-
-
-        Flight flight = (Flight)getIntent().getExtras().getParcelable("FLIGHT");
-        String accessTocketnGD = (String) getIntent().getExtras().get("ACCES_TOCKENT_GD");
-        //String autorization = getIntent().getStringExtra("AUTORIZATION");
-
         Bundle bundle = new Bundle();
-        bundle.putParcelable("FLIGHT",getIntent().getExtras().getParcelable("FLIGHT"));
-        bundle.putString("ACCES_TOCKENT_GD",accessTocketnGD);
-        //bundle.putString("AUTORIZATION",autorization);
-        BookingFragment bookingFragment = new BookingFragment();
-        bookingFragment.setArguments(bundle);
+        bundle.putString("CATEGORY",category);
+        bundle.putString("COUNTRY",countryCode);
 
+        NewsDetailsFragment newsDetailsFragment = new NewsDetailsFragment();
+        newsDetailsFragment.setArguments(bundle);
         //start fragment
         android.support.v4.app.FragmentManager fragmentManager = this.getSupportFragmentManager();
         int containerId = R.id.container;
         fragmentManager.beginTransaction()
-                .replace(containerId,bookingFragment)
+                .replace(containerId,newsDetailsFragment)
                 .commitAllowingStateLoss();
+
+        DrawerUtil.getDrawerNewsCategoryNavigation(this);
 
     }
 
@@ -98,4 +85,10 @@ public class BookingActivity extends AppCompatActivity implements HasSupportFrag
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
+    private void initKey(){
+        category = (String)getIntent().getExtras().get("CATEGORY");
+        countryCode = (String)getIntent().getExtras().get("COUNTRY");
+    }
+
 }

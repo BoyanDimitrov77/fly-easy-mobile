@@ -11,16 +11,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.easy.fly.flyeasy.R;
-import com.easy.fly.flyeasy.adapters.FlightAdapter;
+import com.easy.fly.flyeasy.common.NewsCountry;
+import com.easy.fly.flyeasy.common.NewsParametersConstants;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.common.SessionManager;
-import com.easy.fly.flyeasy.db.models.CombineModel;
-import com.easy.fly.flyeasy.db.models.Flight;
 import com.easy.fly.flyeasy.db.models.User;
-import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.fragments.UserPersonalInformationFragment;
 import com.easy.fly.flyeasy.utils.UserUtil;
-import com.easy.fly.flyeasy.viewmodel.HomeViewModel;
 import com.easy.fly.flyeasy.viewmodel.UserViewModel;
 
 import javax.inject.Inject;
@@ -61,7 +58,11 @@ public class UserProfileActivity extends AppCompatActivity implements HasSupport
                     intent.putExtra("HOTEL_SCREEN_SELECTED","hotelHomeScreen");
                     startActivity(intent);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_news:
+                    Intent intentN = new Intent(getApplicationContext(),NewsActivity.class);
+                    intentN.putExtra("CATEGORY", NewsParametersConstants.ALL);
+                    intentN.putExtra("COUNTRY", NewsCountry.USA.toString());
+                    startActivity(intentN);
                     return true;
             }
             return false;
