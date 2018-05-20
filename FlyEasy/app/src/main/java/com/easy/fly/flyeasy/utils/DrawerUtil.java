@@ -10,6 +10,7 @@ import com.easy.fly.flyeasy.activities.SettingActivity;
 import com.easy.fly.flyeasy.activities.UserProfileActivity;
 import com.easy.fly.flyeasy.common.NewsCountry;
 import com.easy.fly.flyeasy.common.NewsParametersConstants;
+import com.easy.fly.flyeasy.common.SessionManager;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -29,7 +30,7 @@ public class DrawerUtil {
 
     private static String countryCode;
 
-    public static void getDrawerProfileNavigation(final Activity activity, UserDB user) {
+    public static void getDrawerProfileNavigation(final Activity activity, UserDB user, SessionManager sessionManager) {
 
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem drawerEmptyItem= new PrimaryDrawerItem().withIdentifier(0).withName("");
@@ -41,13 +42,17 @@ public class DrawerUtil {
                 .withIdentifier(2).withName(R.string.flight_bonus).withIcon(FontAwesome.Icon.faw_trophy);
 
 
-        SecondaryDrawerItem drawerItemMyFlights = new SecondaryDrawerItem().withIdentifier(3)
+        PrimaryDrawerItem drawerItemMyFlights = new PrimaryDrawerItem().withIdentifier(3)
                 .withName(R.string.my_flights).withIcon(FontAwesome.Icon.faw_plane);
 
-        SecondaryDrawerItem drawerItemDashboard = new SecondaryDrawerItem().withIdentifier(4)
+        PrimaryDrawerItem drawerItemDashboard = new PrimaryDrawerItem().withIdentifier(4)
                 .withName(R.string.dashboard).withIcon(FontAwesome.Icon.faw_audible);
-        SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(5)
+        PrimaryDrawerItem drawerItemSettings = new PrimaryDrawerItem().withIdentifier(5)
                 .withName(R.string.settings).withIcon(FontAwesome.Icon.faw_cog);
+
+        PrimaryDrawerItem drawerItemLogout = new PrimaryDrawerItem().withIdentifier(6)
+                .withName(R.string.logout).withIcon(FontAwesome.Icon.faw_sign_out_alt);
+
 
        System.out.print("UserDB:"+user);
 
@@ -116,7 +121,8 @@ public class DrawerUtil {
                         drawerItemDashboard,
                         new DividerDrawerItem(),
                         //drawerItemAbout,
-                        drawerItemSettings
+                        drawerItemSettings,
+                        drawerItemLogout
                         //drawerItemHelp,
                         //drawerItemDonate
                 )
@@ -141,6 +147,8 @@ public class DrawerUtil {
                             Intent intent = new Intent(activity, SettingActivity.class);
                             view.getContext().startActivity(intent);
 
+                        }else if(drawerItem.getIdentifier() == 6){
+                            sessionManager.logoutUser();
                         }
                         return true;
                     }

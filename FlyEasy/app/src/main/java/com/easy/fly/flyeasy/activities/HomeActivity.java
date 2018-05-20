@@ -173,7 +173,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         viewModel.response().observe(this,response -> processResponse(response));
 
         //NavigationDrawer
-        DrawerUtil.getDrawerProfileNavigation(this,userFromDB);
+        DrawerUtil.getDrawerProfileNavigation(this,userFromDB,sessionManager);
     }
 
     private void processResponse(Response response) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.easy.fly.flyeasy.activities.HomeActivity;
 import com.easy.fly.flyeasy.activities.LoginActivity;
 
 import java.time.chrono.IsoChronology;
@@ -67,6 +68,9 @@ public class SessionManager {
             //add flag to start new activity
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+            this.context.startActivity(intent);
+        }else{
+            Intent intent = new Intent(this.context, HomeActivity.class);
             this.context.startActivity(intent);
         }
     }
