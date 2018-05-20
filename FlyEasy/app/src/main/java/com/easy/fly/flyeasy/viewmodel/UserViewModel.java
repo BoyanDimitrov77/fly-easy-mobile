@@ -8,11 +8,14 @@ import android.util.Log;
 import com.easy.fly.flyeasy.common.NetworkBoundResponse;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.db.models.BasicModel;
+import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.dto.UpdateUserInformationDto;
 import com.easy.fly.flyeasy.dto.UserDto;
 import com.easy.fly.flyeasy.repositories.UserRepository;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -68,8 +71,18 @@ public class UserViewModel extends ViewModel{
         loadUserDetails(user);
     }
 
+    public void myFlights(String authorization){
+        Observable<List<FlightBooking>> flightBookingObservable = userRepository.myFlights(authorization);
+        Observable<BasicModel> accessTokenGD = userRepository.getAccessTokenGD(authorization);
+        loadUserFlights(flightBookingObservable,accessTokenGD);
+    }
+
     public UserDB getUserFromDB(long userId){
         return userRepository.loadUser(userId);
+    }
+
+    private void loadUserFlights(Observable<List<FlightBooking>> flightBookingObservable, Observable<BasicModel> accessTokenGD) {
+        new NetworkBoundResponse().getResponse(flightBookingObservable, accessTokenGD, disposables, response);
     }
 
     private void loadUserUpdateInformation(Observable<User> updateUserInformationDtoObservable) {

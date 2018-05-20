@@ -67,4 +67,7 @@ public interface UserWebService {
 
     @POST("users/updatePersonalInformation")
     Observable<User>updatePersonalInformation(@Header("Authorization") String authorization,@Body UpdateUserInformationDto updateUserInformationDto);
+
+    @GET("flight/myFlights")
+    Observable<List<FlightBooking>> myFlights(@Header("Authorization") String authorization);
 }

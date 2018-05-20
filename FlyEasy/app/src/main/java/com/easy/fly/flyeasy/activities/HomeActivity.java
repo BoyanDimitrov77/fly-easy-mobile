@@ -125,9 +125,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         setContentView(R.layout.activity_home);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel.class);
         ButterKnife.bind(this);
-
         sessionManager = new SessionManager(getApplicationContext());
-
         userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
 
         //get user from Database

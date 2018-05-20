@@ -22,13 +22,22 @@
             app:civ_border_color="#0fffffff"
             app:civ_border_width="2dp" />
 
+        <TextView
+        android:id="@+id/user_fullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="163dp"
+        android:textSize="16sp" />
+
         <LinearLayout
             android:id="@+id/setting_list"
             android:layout_width="match_parent"
-            android:layout_height="388dp"
+            android:layout_height="358dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="179dp"
+            android:layout_marginTop="209dp"
             android:orientation="vertical">
 
 
@@ -36,19 +45,19 @@
                 android:id="@+id/update_personal_information"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
+                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/update_personal_information"
-                android:textSize="16sp"
-                android:clickable="true"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/chage_password"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
+                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/change_password"
-                android:textSize="16sp"
-                android:clickable="true"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
 
