@@ -5,11 +5,14 @@ import android.arch.lifecycle.LiveData;
 import com.easy.fly.flyeasy.AppExecutors;
 import com.easy.fly.flyeasy.db.dao.UserDao;
 import com.easy.fly.flyeasy.db.models.BasicModel;
+import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.dto.UpdateUserInformationDto;
 import com.easy.fly.flyeasy.dto.UserDto;
 import com.easy.fly.flyeasy.interfaces.UserWebService;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -64,6 +67,10 @@ public class UserRepository {
 
     public Observable<User> updatePersonalInformation(String auhtorization,UpdateUserInformationDto updateUserInformationDto){
         return userWebService.updatePersonalInformation(auhtorization,updateUserInformationDto);
+    }
+
+    public Observable<List<FlightBooking>> myFlights(String authorization){
+        return userWebService.myFlights(authorization);
     }
 
 

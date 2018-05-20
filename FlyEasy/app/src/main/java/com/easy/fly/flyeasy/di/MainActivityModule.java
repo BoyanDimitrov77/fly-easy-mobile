@@ -8,6 +8,7 @@ import com.easy.fly.flyeasy.activities.BookingActivity;
 import com.easy.fly.flyeasy.activities.HomeActivity;
 import com.easy.fly.flyeasy.activities.HotelActivity;
 import com.easy.fly.flyeasy.activities.LoginActivity;
+import com.easy.fly.flyeasy.activities.MyFlightsActivity;
 import com.easy.fly.flyeasy.activities.NewsActivity;
 import com.easy.fly.flyeasy.activities.SettingActivity;
 import com.easy.fly.flyeasy.activities.SignUpActivity;
@@ -44,5 +45,8 @@ public abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
     abstract NewsActivity contributeNewsActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    abstract MyFlightsActivity contributeMyFlightsActivity();
 
 }

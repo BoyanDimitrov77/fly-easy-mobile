@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.easy.fly.flyeasy.R;
@@ -17,6 +19,9 @@ public class MainActivity extends FragmentActivity {
     @BindView(R.id.welcome_screen_layout)
     RelativeLayout relativeLayout;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
     private SessionManager sessionManager;
 
     Handler handler = new Handler();
@@ -24,6 +29,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void run() {
             sessionManager.checkLogin();
+
         }
     };
 

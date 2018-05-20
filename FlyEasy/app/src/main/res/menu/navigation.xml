@@ -9,7 +9,7 @@
     <item
         android:id="@+id/navigation_hotel"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_hotels" />
+        android:title="@string/title_hotels"/>
 
     <item
         android:id="@+id/navigation_news"

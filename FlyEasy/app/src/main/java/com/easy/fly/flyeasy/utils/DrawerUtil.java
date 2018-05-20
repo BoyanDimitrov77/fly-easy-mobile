@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.easy.fly.flyeasy.R;
+import com.easy.fly.flyeasy.activities.MyFlightsActivity;
 import com.easy.fly.flyeasy.activities.NewsActivity;
 import com.easy.fly.flyeasy.activities.SettingActivity;
 import com.easy.fly.flyeasy.activities.UserProfileActivity;
@@ -20,7 +21,6 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
@@ -116,12 +116,12 @@ public class DrawerUtil {
                 .addDrawerItems(
                         //drawerEmptyItem,drawerEmptyItem,drawerEmptyItem,
                         drawerItemPersonaInformation,
-                        drawerItemManageFlightBonus,
+                        //drawerItemManageFlightBonus,
                         drawerItemMyFlights,
-                        drawerItemDashboard,
-                        new DividerDrawerItem(),
+                       // drawerItemDashboard,
                         //drawerItemAbout,
                         drawerItemSettings,
+                        new DividerDrawerItem(),
                         drawerItemLogout
                         //drawerItemHelp,
                         //drawerItemDonate
@@ -140,7 +140,8 @@ public class DrawerUtil {
                         }else if(drawerItem.getIdentifier() == 2){
 
                         }else if(drawerItem.getIdentifier() == 3){
-
+                            Intent intent = new Intent(activity, MyFlightsActivity.class);
+                            view.getContext().startActivity(intent);
                         }else if(drawerItem.getIdentifier() == 4){
 
                         }else if(drawerItem.getIdentifier() == 5){
@@ -184,7 +185,7 @@ public class DrawerUtil {
 
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(activity)
-                .withHeaderBackground(R.color.colorLightBlue)
+                .withHeaderBackground(R.drawable.ic_launcher_background)
                 .addProfiles(
                         new ProfileDrawerItem().withName(NewsParametersConstants.AUSTRALIA).withIcon(FontAwesome.Icon.faw_globe),
                         new ProfileDrawerItem().withName(NewsParametersConstants.BULGARIA).withIcon(FontAwesome.Icon.faw_globe),

@@ -8,6 +8,19 @@
         <item name="colorAccent">@color/colorLightBlue</item>
     </style>
 
+<!--    <style name="Theme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorLightBlue</item>
+
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/color_dim</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        &lt;!&ndash;<item name="android:windowIsFloating">true</item>&ndash;&gt;
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>-->
+
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>

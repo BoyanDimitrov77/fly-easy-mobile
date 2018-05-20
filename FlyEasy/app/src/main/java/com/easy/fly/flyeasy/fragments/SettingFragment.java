@@ -41,6 +41,9 @@ public class SettingFragment extends Fragment implements Injectable {
     @BindView(R.id.profile_picture)
     CircleImageView profilePicture;
 
+    @BindView(R.id.user_fullName)
+    TextView userFullName;
+
     public SettingFragment() {
         // Required empty public constructor
     }
@@ -62,6 +65,7 @@ public class SettingFragment extends Fragment implements Injectable {
 
         User user = (User)getArguments().getParcelable("USER");
 
+        userFullName.setText(user.getFullName());
         Glide.with(getContext())
                 .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture().getThumbnailPicture().getValue()))// GlideUrl is created anyway so there's no extra objects allocated
                 .into(profilePicture);
