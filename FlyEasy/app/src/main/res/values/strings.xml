@@ -83,5 +83,8 @@
     <string name="sports_category">Sports</string>
     <string name="technology_category">Technology</string>
     <string name="all">All</string>
+    <string name="flyeasy">FlyEasy</string>
+
+    <string name="logout">Logout</string>
 
 </resources>
