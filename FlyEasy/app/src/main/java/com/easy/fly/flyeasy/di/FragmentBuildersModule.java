@@ -16,6 +16,7 @@ import com.easy.fly.flyeasy.fragments.PaymentStatusFragment;
 import com.easy.fly.flyeasy.fragments.ReadArticleFragment;
 import com.easy.fly.flyeasy.fragments.RegularRegistrationUserFragment;
 import com.easy.fly.flyeasy.fragments.SettingFragment;
+import com.easy.fly.flyeasy.fragments.TicketDetailsFragment;
 import com.easy.fly.flyeasy.fragments.UserPersonalInformationFragment;
 
 import dagger.Module;
@@ -62,5 +63,8 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract MyFlightsFragment contributeMyFlightsFragment();
+
+    @ContributesAndroidInjector
+    abstract TicketDetailsFragment contributeTicketDetailsFragment();
 
 }

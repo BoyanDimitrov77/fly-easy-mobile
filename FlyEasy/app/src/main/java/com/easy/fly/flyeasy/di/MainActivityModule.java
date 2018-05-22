@@ -12,6 +12,7 @@ import com.easy.fly.flyeasy.activities.MyFlightsActivity;
 import com.easy.fly.flyeasy.activities.NewsActivity;
 import com.easy.fly.flyeasy.activities.SettingActivity;
 import com.easy.fly.flyeasy.activities.SignUpActivity;
+import com.easy.fly.flyeasy.activities.TicketActivity;
 import com.easy.fly.flyeasy.activities.UserProfileActivity;
 
 import dagger.Module;
@@ -48,5 +49,8 @@ public abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
     abstract MyFlightsActivity contributeMyFlightsActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    abstract TicketActivity contributeTicketActivity();
 
 }
