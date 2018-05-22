@@ -12,7 +12,9 @@ import android.widget.Button;
 
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.activities.HotelActivity;
+import com.easy.fly.flyeasy.activities.TicketActivity;
 import com.easy.fly.flyeasy.databinding.FragmentPaymentStatusBinding;
+import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.PaymentStatus;
 import com.easy.fly.flyeasy.di.Injectable;
 
@@ -28,10 +30,15 @@ public class PaymentStatusFragment extends Fragment implements Injectable {
 
     private boolean isPaymentStatusFormFlightBook;
 
-    private long locationId;
+    //private long locationId;
+
+    private FlightBooking flightBooking;
 
     @BindView(R.id.avaialbleHotelsbtn)
     Button availableHotelButton;
+
+    @BindView(R.id.bookedTicketsbtn)
+    Button bookedTicketsButton;
 
     public PaymentStatusFragment() {
         // Required empty public constructor
@@ -62,8 +69,17 @@ public class PaymentStatusFragment extends Fragment implements Injectable {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), HotelActivity.class);
                 intent.putExtra("HOTEL_SCREEN_SELECTED","hotelScreenAfterSuccessfulPaymentBooking");
-                intent.putExtra("HOTEL_LOCATION_ID",locationId);
+                intent.putExtra("HOTEL_LOCATION_ID",flightBooking.getFlight().getLocationTo().getId());
 
+                startActivity(intent);
+            }
+        });
+
+        bookedTicketsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TicketActivity.class);
+                intent.putExtra("FLIGHT_BOOKING",flightBooking);
                 startActivity(intent);
             }
         });
@@ -74,7 +90,8 @@ public class PaymentStatusFragment extends Fragment implements Injectable {
     private void initKey(){
 
         isConfirmed = getArguments().getBoolean("IS_CONFIRMED");
-        locationId = getArguments().getLong("HOTEL_LOCATION_ID");
+        flightBooking = (FlightBooking)getArguments().getParcelable("FLIGHT_BOOKING");
+        //locationId = getArguments().getLong("HOTEL_LOCATION_ID");
         isPaymentStatusFormFlightBook = getArguments().getBoolean("IS_PAYMENT_STATUS_FROM_FLIGHT_BOOK");
     }
 

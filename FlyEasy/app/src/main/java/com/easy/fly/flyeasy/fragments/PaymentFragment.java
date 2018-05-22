@@ -145,13 +145,15 @@ public class PaymentFragment extends Fragment implements Injectable {
 
             case SUCCESS:
                 Toast.makeText(getContext(), "Payment successful!", Toast.LENGTH_LONG).show();
-                long locationId = ((FlightBooking) response.data).getFlight().getLocationTo().getId();
+                //long locationId = ((FlightBooking) response.data).getFlight().getLocationTo().getId();
+                FlightBooking flightBooking =(FlightBooking)response.data;
 
-                moveToPaymentStatusFragment(bundle,true,locationId);
+
+                moveToPaymentStatusFragment(bundle,true,flightBooking);
                 break;
 
             case ERROR:
-                moveToPaymentStatusFragment(bundle,false,0);
+                moveToPaymentStatusFragment(bundle,false,null);
                 break;
         }
     }
@@ -166,12 +168,13 @@ public class PaymentFragment extends Fragment implements Injectable {
 
     }
 
-    private void moveToPaymentStatusFragment(Bundle bundle,boolean paymentStatus,long locationId){
+    private void moveToPaymentStatusFragment(Bundle bundle,boolean paymentStatus,FlightBooking flightBooking){
         bundle.putBoolean("IS_CONFIRMED",paymentStatus);
         bundle.putBoolean("IS_PAYMENT_STATUS_FROM_FLIGHT_BOOK",true);
 
-        if(locationId !=0){
-            bundle.putLong("HOTEL_LOCATION_ID",locationId);
+        if(flightBooking !=null){
+            bundle.putParcelable("FLIGHT_BOOKING",flightBooking);
+            //bundle.putLong("HOTEL_LOCATION_ID",locationId);
         }
 
         PaymentStatusFragment paymentStatusFragment = new PaymentStatusFragment();
