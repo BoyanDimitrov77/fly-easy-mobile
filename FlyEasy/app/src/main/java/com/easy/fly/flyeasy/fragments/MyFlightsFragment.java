@@ -100,7 +100,7 @@ public class MyFlightsFragment extends Fragment implements Injectable {
 
             case SUCCESS:
                 data = (CombineModel) response.data;
-                adapter = new MyFlightsAdapter(data,getContext());
+                adapter = new MyFlightsAdapter(data,getContext(),this.getFragmentManager());
                 recyclerView.setAdapter(adapter);
                 break;
 

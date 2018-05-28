@@ -2,7 +2,9 @@ package com.easy.fly.flyeasy.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,8 @@ import com.easy.fly.flyeasy.common.HeaderAtuhenticationGlide;
 import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.CombineModel;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
+import com.easy.fly.flyeasy.fragments.HotelDetailsFragment;
+import com.easy.fly.flyeasy.fragments.TicketDetailsFragment;
 
 import java.util.ArrayList;
 
@@ -26,18 +30,42 @@ public class MyFlightsAdapter extends RecyclerView.Adapter<MyFlightsAdapter.View
     private String accesTokenGD;
     private Context context;
     private String authorization;
+    private FragmentManager fragmentManager;
 
-    public MyFlightsAdapter (CombineModel data, Context context){
+    public MyFlightsAdapter (CombineModel data, Context context,FragmentManager fragmentManager){
         this.myFlights = (ArrayList<FlightBooking>) data.getDataT1();
         this.accesTokenGD = ((BasicModel) data.getDataT2()).getData();
         this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
     @Override
     public MyFlightsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_my_flight,parent,false);
-        return new MyFlightsAdapter.ViewHolder(view);
+        MyFlightsAdapter.ViewHolder viewHolder = new MyFlightsAdapter.ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getAdapterPosition();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("FLIGHT_BOOKING",myFlights.get(position));
+
+                TicketDetailsFragment ticketDetailsFragment = new TicketDetailsFragment();
+                ticketDetailsFragment.setArguments(bundle);
+
+                //start fragment
+                android.support.v4.app.FragmentManager fragmentM  = fragmentManager;
+                int containerId = R.id.container;
+                fragmentM.beginTransaction()
+                        .replace(containerId,ticketDetailsFragment)
+                        .commitAllowingStateLoss();
+            }
+        });
+
+
+        return viewHolder;
     }
 
     @Override
