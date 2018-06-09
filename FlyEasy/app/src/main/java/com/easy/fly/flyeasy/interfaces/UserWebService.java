@@ -70,4 +70,7 @@ public interface UserWebService {
 
     @GET("flight/myFlights")
     Observable<List<FlightBooking>> myFlights(@Header("Authorization") String authorization);
+
+    @GET("hotel/allMyBookedHotels")
+    Observable<List<HotelBook>> myBookedHotels(@Header("Authorization") String authorization);
 }

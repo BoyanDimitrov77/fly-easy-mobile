@@ -31,14 +31,14 @@
 
       <TextView
           android:id="@+id/depart_plain_text4"
-          android:layout_width="31dp"
+          android:layout_width="48dp"
           android:layout_height="25dp"
           android:layout_alignParentTop="true"
           android:layout_toStartOf="@+id/price_ticket"
           android:ems="10"
           android:gravity="center"
           android:inputType="textPersonName"
-          android:text="@string/price"
+          android:text="@string/from_price"
           android:textSize="8sp"
           android:textStyle="bold" />
 

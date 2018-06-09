@@ -40,4 +40,8 @@ public class HotelRepository {
         return userWebService.getAllHotel(authorization);
     }
 
+    public Observable<List<HotelBook>>getAllMyBookedHotel(String authorization){
+        return userWebService.myBookedHotels(authorization);
+    }
+
 }
