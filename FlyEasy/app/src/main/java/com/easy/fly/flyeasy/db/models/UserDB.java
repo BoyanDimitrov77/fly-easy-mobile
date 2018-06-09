@@ -83,9 +83,9 @@ public class UserDB implements Parcelable{
                 .username(user.getUserName())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
-                .profilePicture(user.getProfilePicture().getThumbnailPicture().getValue())
-                .birthDate(user.getBirthDate())
-                .location(user.getLocation().getName())
+                .profilePicture(user.getProfilePicture() !=null ? user.getProfilePicture().getThumbnailPicture().getValue() :"")
+                .birthDate(user.getBirthDate() !=null ? user.getBirthDate() : "" )
+                .location(user.getLocation() !=null ? user.getLocation().getName() : "")
                 .build();
     }
 

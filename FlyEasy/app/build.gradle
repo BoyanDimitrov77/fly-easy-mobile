@@ -138,6 +138,8 @@ dependencies {
     implementation 'com.mikepenz:ionicons-typeface:2.0.1.4@aar'
     implementation 'com.mikepenz:pixeden-7-stroke-typeface:1.2.0.2@aar'
 
+    implementation 'com.ms-square:expandableTextView:0.1.4'
+
 }
 
 def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*',

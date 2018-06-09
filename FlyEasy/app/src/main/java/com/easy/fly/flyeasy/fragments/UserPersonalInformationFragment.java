@@ -114,14 +114,16 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
 
         ButterKnife.bind(this,binding.getRoot());
 
-        userFullName.setText(user.getFullName());
-        userLocation.setText(user.getLocation().getName());
-        userEmail.setText(user.getEmail());
-        userBirthDate.setText(DateFormater.formatDateForUI(user.getBirthDate().toString()));
+        userFullName.setText(user.getFullName() !=null ? user.getFullName() : "");
+        userLocation.setText(user.getLocation()!= null ? user.getLocation().getName() : "");
+        userEmail.setText(user.getEmail() !=null ? user.getEmail() : "");
+        userBirthDate.setText(user.getBirthDate() != null ? DateFormater.formatDateForUI(user.getBirthDate().toString()): "");
 
-        Glide.with(getContext())
-                .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture().getThumbnailPicture().getValue()))// GlideUrl is created anyway so there's no extra objects allocated
-                .into(profilePicture);
+        if(user.getProfilePicture()!=null){
+            Glide.with(getContext())
+                    .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture().getThumbnailPicture().getValue()))// GlideUrl is created anyway so there's no extra objects allocated
+                    .into(profilePicture);
+        }
 
         userBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override

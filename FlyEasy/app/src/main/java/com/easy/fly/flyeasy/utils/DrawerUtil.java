@@ -60,7 +60,7 @@ public class DrawerUtil {
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.ic_launcher_background)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(user.getFullName()== null ? "" :user.getFullName()).withEmail(user.getEmail()== null ? "" : user.getEmail() ).withIcon(R.drawable.contacts_icons)
+                        new ProfileDrawerItem().withName(user.getFullName()== null ? "" :user.getFullName()).withEmail(user.getEmail()== null ? "" : user.getEmail()).withIcon(R.drawable.contacts_icons)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override

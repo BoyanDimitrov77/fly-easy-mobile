@@ -33,6 +33,7 @@ import com.easy.fly.flyeasy.db.models.HotelRoom;
 import com.easy.fly.flyeasy.di.Injectable;
 import com.easy.fly.flyeasy.utils.UserUtil;
 import com.easy.fly.flyeasy.viewmodel.HotelViewModel;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import org.w3c.dom.Text;
 
@@ -53,8 +54,8 @@ public class HotelDetailsFragment extends Fragment implements Injectable {
     @BindView(R.id.hotel_picture_recycler_view)
     RecyclerView recyclerView;
 
-    @BindView(R.id.description_hotel)
-    TextView descriptionHotel;
+    @BindView(R.id.hotel_name)
+    TextView hotelName;
 
     @BindView(R.id.price_hotel)
     TextView priceHotel;
@@ -132,10 +133,17 @@ public class HotelDetailsFragment extends Fragment implements Injectable {
             }
         }));
 
-        descriptionHotel.setText(hotel.getDescription());
+        hotelName.setText(hotel.getHotelName());
+
+        // sample code snippet to set the text content on the ExpandableTextView
+        ExpandableTextView expandableTextViewHotelDescription = (ExpandableTextView) inflate.findViewById(R.id.expandable_layout)
+                .findViewById(R.id.expand_text_view);
+
+    // IMPORTANT - call setText on the ExpandableTextView to set the text content to display
+        expandableTextViewHotelDescription.setText(hotel.getDescription());
 
         totalPrice = hotel.getHotelRooms().get(0).getPrice();
-        priceHotel.setText(totalPrice.toString());
+        priceHotel.setText("$" + totalPrice.toString());
 
         //Spinner
         Object[] hotelRoomsNameType = hotel.getHotelRooms().stream().map(HotelRoom::getTypeRoom).collect(Collectors.toList()).toArray();
@@ -150,7 +158,7 @@ public class HotelDetailsFragment extends Fragment implements Injectable {
                 String selectedTypeRoom = (String)parent.getItemAtPosition(position);
                 selectedHotelRoom = hotel.getHotelRooms().stream().filter(hr -> hr.getTypeRoom().equals(selectedTypeRoom)).findFirst().get();
                 totalPrice = selectedHotelRoom.getPrice();
-                priceHotel.setText(totalPrice.toString());
+                priceHotel.setText("$"+totalPrice.toString());
             }
 
             @Override
