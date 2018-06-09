@@ -50,7 +50,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         holder.locationTo.setText(flights.get(position).getLocationTo().getName());
         holder.departDate.setText(flights.get(position).getDepartDate());
         holder.arrive.setText(flights.get(position).getArriveDate());
-        holder.priceTicket.setText(flights.get(position).getPrice().toString());
+        holder.priceTicket.setText("$"+flights.get(position).getPrice().toString());
 
         holder.bookBbutton.setOnClickListener(new View.OnClickListener() {
             @Override

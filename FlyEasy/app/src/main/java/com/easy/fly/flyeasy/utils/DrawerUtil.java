@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.easy.fly.flyeasy.R;
 import com.easy.fly.flyeasy.activities.MyFlightsActivity;
+import com.easy.fly.flyeasy.activities.MyHotelsActivity;
 import com.easy.fly.flyeasy.activities.NewsActivity;
 import com.easy.fly.flyeasy.activities.SettingActivity;
 import com.easy.fly.flyeasy.activities.UserProfileActivity;
@@ -53,6 +54,9 @@ public class DrawerUtil {
         PrimaryDrawerItem drawerItemLogout = new PrimaryDrawerItem().withIdentifier(6)
                 .withName(R.string.logout).withIcon(FontAwesome.Icon.faw_sign_out_alt);
 
+        PrimaryDrawerItem drawerItemMyHotels = new PrimaryDrawerItem().withIdentifier(7)
+                .withName(R.string.my_hotels).withIcon(FontAwesome.Icon.faw_building);
+
 
        System.out.print("UserDB:"+user);
 
@@ -60,7 +64,7 @@ public class DrawerUtil {
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.ic_launcher_background)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(user.getFullName()== null ? "" :user.getFullName()).withEmail(user.getEmail()== null ? "" : user.getEmail()).withIcon(R.drawable.contacts_icons)
+                        new ProfileDrawerItem().withName(user== null ? "" :user.getFullName()).withEmail(user== null ? "" : user.getEmail()).withIcon(R.drawable.contacts_icons)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -118,6 +122,7 @@ public class DrawerUtil {
                         drawerItemPersonaInformation,
                         //drawerItemManageFlightBonus,
                         drawerItemMyFlights,
+                        drawerItemMyHotels,
                        // drawerItemDashboard,
                         //drawerItemAbout,
                         drawerItemSettings,
@@ -150,6 +155,9 @@ public class DrawerUtil {
 
                         }else if(drawerItem.getIdentifier() == 6){
                             sessionManager.logoutUser();
+                        }else if (drawerItem.getIdentifier() == 7){
+                            Intent intent = new Intent(activity, MyHotelsActivity.class);
+                            view.getContext().startActivity(intent);
                         }
                         return true;
                     }

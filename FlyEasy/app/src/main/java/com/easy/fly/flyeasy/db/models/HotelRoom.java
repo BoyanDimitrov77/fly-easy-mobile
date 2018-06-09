@@ -26,6 +26,9 @@ public class HotelRoom implements Parcelable {
     @SerializedName("typeRoom")
     @Expose
     private String typeRoom;
+    @SerializedName("reservedHotel")
+    @Expose
+    private ReservedHotel reservedHotel;
     @SerializedName("price")
     @Expose
     private BigDecimal price;
@@ -34,6 +37,7 @@ public class HotelRoom implements Parcelable {
 
         this.id = in.readLong();
         this.typeRoom = in.readString();
+        this.reservedHotel = (ReservedHotel) in.readParcelable(ReservedHotel.class.getClassLoader());
         this.price = BigDecimal.valueOf(in.readDouble());
     }
 
@@ -53,6 +57,14 @@ public class HotelRoom implements Parcelable {
         this.typeRoom = typeRoom;
     }
 
+    public ReservedHotel getReservedHotel() {
+        return reservedHotel;
+    }
+
+    public void setReservedHotel(ReservedHotel reservedHotel) {
+        this.reservedHotel = reservedHotel;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -70,6 +82,9 @@ public class HotelRoom implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
         dest.writeString(this.typeRoom);
+        dest.writeParcelable(this.reservedHotel,flags);
         dest.writeDouble(this.price.doubleValue());
     }
+
+
 }

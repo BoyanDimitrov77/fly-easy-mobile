@@ -59,8 +59,19 @@ public class HotelViewModel extends ViewModel {
         loadHotels(hotels,accessTokenGD);
     }
 
-    private void loadHotels(Observable<List<Hotel>> allFlights, Observable<BasicModel> accessTokenGD) {
-        new NetworkBoundResponse().getResponse(allFlights,accessTokenGD,disposables,response);
+    public void getAllMyBookedHotel(String authorization){
+        Observable<List<HotelBook>> allMyBookedHotel = hotelRepository.getAllMyBookedHotel(authorization);
+        Observable<BasicModel> accessTokenGD = userRepository.getAccessTokenGD(authorization);
+        loadBookedHotels(allMyBookedHotel,accessTokenGD);
+    }
+
+    private void loadHotels(Observable<List<Hotel>> allHotels, Observable<BasicModel> accessTokenGD) {
+        new NetworkBoundResponse().getResponse(allHotels,accessTokenGD,disposables,response);
+
+    }
+
+    private void loadBookedHotels(Observable<List<HotelBook>> allMyBookedHotel, Observable<BasicModel> accessTokenGD) {
+        new NetworkBoundResponse().getResponse(allMyBookedHotel,accessTokenGD,disposables,response);
 
     }
 

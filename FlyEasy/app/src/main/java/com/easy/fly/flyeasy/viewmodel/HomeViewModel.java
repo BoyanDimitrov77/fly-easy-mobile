@@ -53,7 +53,8 @@ public class HomeViewModel  extends ViewModel{
     }
     public void searchFlights(String authorization, SearchDto searchDto){
         Observable<List<Flight>> searchFlight = flightRepository.getSearchFlight(authorization, searchDto);
-        loadFlights(searchFlight);
+        Observable<BasicModel> accessTokenGD = userRepository.getAccessTokenGD(authorization);
+        loadFlights(searchFlight,accessTokenGD);
     }
 
     public void getUser(String authorization){
