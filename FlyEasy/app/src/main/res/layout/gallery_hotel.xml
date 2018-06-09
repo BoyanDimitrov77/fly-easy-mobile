@@ -3,80 +3,112 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/fragment_hotel_details">
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/hotel_picture_recycler_view"
+    <ScrollView
+        android:id="@+id/scroll_view_hotel_details"
         android:layout_width="match_parent"
-        android:layout_height="203dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="13dp"
-        android:scrollbars="vertical" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/description_hotel"
-        android:layout_width="323dp"
-        android:layout_height="41dp"
-        android:layout_centerInParent="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="7dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="204dp"
-        android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/hotel_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/price_label"
-        android:layout_width="66dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="163dp"
-        android:layout_marginStart="126dp"
-        android:text="@string/price"
-        android:textSize="18sp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/hotel_picture_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="203dp"
+                android:layout_margin="8dp"
+                android:scrollbars="vertical" />
 
-    <TextView
-        android:id="@+id/price_hotel"
-        android:layout_width="66dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/spinnerRoom"
-        android:layout_alignTop="@+id/price_label"
-        android:textAlignment="textStart" />
+            <include
+                android:id="@+id/expandable_layout"
+                layout="@layout/expandable_text_view" />
 
-    <Button
-        android:id="@+id/hotelBookBtn"
-        android:layout_width="127dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="45dp"
-        android:text="@string/book" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="270dp">
 
-    <Spinner
-        android:id="@+id/spinnerRoom"
-        android:layout_width="131dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/spinnerRoom_lable" />
+                <TextView
+                    android:id="@+id/price_label"
+                    android:layout_width="66dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/spinnerRoom_lable"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/price"
+                    android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/spinnerRoom_lable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/price_label"
-        android:layout_marginBottom="118dp"
-        android:text="@string/room_type"
-        android:textAlignment="textStart"
-        android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/price_hotel"
+                    android:layout_width="66dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/price_label"
+                    android:layout_marginEnd="97dp"
+                    android:textAlignment="textStart"/>
+
+                <Button
+                    android:id="@+id/hotelBookBtn"
+                    android:layout_width="127dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="70dp"
+                    android:text="@string/book"
+                    android:textColor="@color/white"
+                    android:background="@color/green"/>
+
+                <Spinner
+                    android:id="@+id/spinnerRoom"
+                    android:layout_width="156dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/price_hotel"
+                    android:layout_alignTop="@+id/spinnerRoom_lable"
+                    android:layout_marginStart="-7dp" />
+
+                <TextView
+                    android:id="@+id/spinnerRoom_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="78dp"
+                    android:layout_marginTop="76dp"
+                    android:text="@string/room_type"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp" />
+
+
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </ScrollView>
+
+
+
+
+
 
 
 </RelativeLayout>

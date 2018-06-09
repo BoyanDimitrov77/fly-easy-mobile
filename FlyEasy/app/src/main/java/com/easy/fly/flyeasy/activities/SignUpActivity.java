@@ -124,7 +124,7 @@ public class SignUpActivity extends AppCompatActivity implements HasSupportFragm
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        Toast.makeText(getBaseContext(), "Registration successful", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Registration successful.Please check your email to verify your account", Toast.LENGTH_LONG).show();
         //finish();
     }
 

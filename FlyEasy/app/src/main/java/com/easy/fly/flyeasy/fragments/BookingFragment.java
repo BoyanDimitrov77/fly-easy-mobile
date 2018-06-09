@@ -143,7 +143,7 @@ public class BookingFragment extends Fragment implements Injectable {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ticketNum = Integer.parseInt((String) parent.getItemAtPosition(position));
                 totalPrice = basePriceFlight.multiply(BigDecimal.valueOf(ticketNum));
-                bookingPriceTicket.setText(totalPrice.toString());
+                bookingPriceTicket.setText("$"+totalPrice.toString());
             }
 
             @Override
@@ -164,7 +164,7 @@ public class BookingFragment extends Fragment implements Injectable {
                 String selectedTravelClass = (String)parent.getItemAtPosition(position);
                 travelClass = flight.getTravelClasses().stream().filter(tc -> tc.getTravelClass().equals(selectedTravelClass)).findFirst().get();
                 basePriceFlight = travelClass.getPrice();
-                bookingPriceTicket.setText(basePriceFlight.multiply(BigDecimal.valueOf(ticketNum)).toString());
+                bookingPriceTicket.setText("$"+basePriceFlight.multiply(BigDecimal.valueOf(ticketNum)).toString());
 
             }
 

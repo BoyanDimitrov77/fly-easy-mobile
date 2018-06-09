@@ -148,7 +148,9 @@
           android:layout_alignParentBottom="true"
           android:layout_alignParentEnd="true"
           android:text="@string/book"
-          android:textSize="8sp" />
+          android:textSize="8sp"
+          android:textColor="@color/white"
+          android:background="@color/green"/>
 
       <TextView
           android:id="@+id/from"
