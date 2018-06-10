@@ -6,6 +6,7 @@ import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.Hotel;
 import com.easy.fly.flyeasy.db.models.HotelBook;
 import com.easy.fly.flyeasy.db.models.User;
+import com.easy.fly.flyeasy.dto.ChangeUserPasswordDto;
 import com.easy.fly.flyeasy.dto.PassengerDto;
 import com.easy.fly.flyeasy.dto.SearchDto;
 import com.easy.fly.flyeasy.dto.UpdateUserInformationDto;
@@ -18,6 +19,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -73,4 +75,7 @@ public interface UserWebService {
 
     @GET("hotel/allMyBookedHotels")
     Observable<List<HotelBook>> myBookedHotels(@Header("Authorization") String authorization);
+
+    @PUT("users/changePassword")
+    Observable<BasicModel> changePassword(@Header("Authorization") String authorization, @Body ChangeUserPasswordDto changeUserPasswordDto);
 }

@@ -11,6 +11,7 @@ import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
+import com.easy.fly.flyeasy.dto.ChangeUserPasswordDto;
 import com.easy.fly.flyeasy.dto.UpdateUserInformationDto;
 import com.easy.fly.flyeasy.dto.UserDto;
 import com.easy.fly.flyeasy.repositories.UserRepository;
@@ -77,6 +78,12 @@ public class UserViewModel extends ViewModel{
         loadUserFlights(flightBookingObservable,accessTokenGD);
     }
 
+    public void changeUserPassword(String authentication, ChangeUserPasswordDto changeUserPasswordDto){
+        Observable<BasicModel> userPasswordObservable = userRepository.changeUserPassword(authentication, changeUserPasswordDto);
+        changePasswordUser(userPasswordObservable,disposables, response);
+    }
+
+
     public UserDB getUserFromDB(long userId){
         return userRepository.loadUser(userId);
     }
@@ -108,6 +115,10 @@ public class UserViewModel extends ViewModel{
 
     private void authenticateUser(Observable<User> userObservable){
         new NetworkBoundResponse().getResponse(userObservable,disposables,response);
+    }
+
+    private void changePasswordUser(Observable<BasicModel> userPasswordObservable, CompositeDisposable disposables, MutableLiveData<Response> response) {
+        new NetworkBoundResponse().getResponse(userPasswordObservable,disposables,response);
     }
 
 }

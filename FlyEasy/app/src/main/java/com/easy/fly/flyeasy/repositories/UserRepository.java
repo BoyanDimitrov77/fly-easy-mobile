@@ -8,6 +8,7 @@ import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
+import com.easy.fly.flyeasy.dto.ChangeUserPasswordDto;
 import com.easy.fly.flyeasy.dto.UpdateUserInformationDto;
 import com.easy.fly.flyeasy.dto.UserDto;
 import com.easy.fly.flyeasy.interfaces.UserWebService;
@@ -71,6 +72,10 @@ public class UserRepository {
 
     public Observable<List<FlightBooking>> myFlights(String authorization){
         return userWebService.myFlights(authorization);
+    }
+
+    public Observable<BasicModel> changeUserPassword(String authentication, ChangeUserPasswordDto changeUserPasswordDto){
+        return userWebService.changePassword(authentication,changeUserPasswordDto);
     }
 
 
