@@ -66,9 +66,11 @@ public class SettingFragment extends Fragment implements Injectable {
         User user = (User)getArguments().getParcelable("USER");
 
         userFullName.setText(user.getFullName());
-        Glide.with(getContext())
-                .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture().getThumbnailPicture().getValue()))// GlideUrl is created anyway so there's no extra objects allocated
-                .into(profilePicture);
+        if(user.getProfilePicture() !=null){
+            Glide.with(getContext())
+                    .load(HeaderAtuhenticationGlide.loadUrl(user.getProfilePicture().getThumbnailPicture().getValue()))// GlideUrl is created anyway so there's no extra objects allocated
+                    .into(profilePicture);
+        }
 
         updatePesonalInformation.setOnClickListener(new View.OnClickListener() {
             @Override

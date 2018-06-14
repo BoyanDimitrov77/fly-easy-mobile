@@ -49,6 +49,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class HomeActivity extends AppCompatActivity implements HasSupportFragmentInjector,DatePickerDialog.OnDateSetListener {
@@ -91,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
     private UserDB userFromDB;
 
-    private final MutableLiveData<UserDB> response = new MutableLiveData<>();
+    private final MutableLiveData<Response> response = new MutableLiveData<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -130,9 +131,18 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
         //get user from Database
         Observable.fromCallable(() -> viewModel.getUserFromDB(UserUtil.getUserId(sessionManager.getUserDeatails())))
-                .subscribeOn(Schedulers.io())
+               // .subscribeOn(Schedulers.io())
                 //.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(data->setUserFromDB(data));
+               // .subscribe(data->setUserFromDB(data));
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(__ -> response.setValue(Response.loading()))
+                .subscribe(
+                        data -> response.setValue(Response.success(data)),
+                        throwable -> response.setValue(Response.error(throwable))
+                );
+
+        response.observe(this,response1 -> processResponseDB(response1));
 
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -171,7 +181,28 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         viewModel.response().observe(this,response -> processResponse(response));
 
         //NavigationDrawer
-        DrawerUtil.getDrawerProfileNavigation(this,userFromDB,sessionManager);
+        //DrawerUtil.getDrawerProfileNavigation(this,userFromDB,sessionManager);
+    }
+
+    private void processResponseDB(Response response1) {
+
+        switch (response1.status) {
+            case LOADING:
+                break;
+
+            case SUCCESS:
+
+                DrawerUtil.getDrawerProfileNavigation(this,(UserDB)response1.data,sessionManager);
+                break;
+
+            case ERROR:
+                break;
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     private void processResponse(Response response) {

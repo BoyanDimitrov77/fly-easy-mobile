@@ -6,6 +6,7 @@ import com.easy.fly.flyeasy.AppExecutors;
 import com.easy.fly.flyeasy.db.dao.UserDao;
 import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
+import com.easy.fly.flyeasy.db.models.PictureResolution;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.dto.ChangeUserPasswordDto;
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 
 /**
  * Created by boyan.dimitrov on 18.3.2018 г..
@@ -64,6 +66,10 @@ public class UserRepository {
 
     public UserDB loadUser(long userId){
         return userDao.load(userId);
+    }
+
+    public Observable<PictureResolution> uploadProfilePicture(String authorization, MultipartBody.Part photo){
+        return userWebService.uploadProfilePicture(authorization,photo);
     }
 
     public Observable<User> updatePersonalInformation(String auhtorization,UpdateUserInformationDto updateUserInformationDto){

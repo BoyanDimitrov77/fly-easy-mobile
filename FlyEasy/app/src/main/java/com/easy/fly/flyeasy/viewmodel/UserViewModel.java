@@ -9,6 +9,7 @@ import com.easy.fly.flyeasy.common.NetworkBoundResponse;
 import com.easy.fly.flyeasy.common.Response;
 import com.easy.fly.flyeasy.db.models.BasicModel;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
+import com.easy.fly.flyeasy.db.models.PictureResolution;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.db.models.UserDB;
 import com.easy.fly.flyeasy.dto.ChangeUserPasswordDto;
@@ -22,6 +23,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
+import okhttp3.MultipartBody;
 
 /**
  * Created by boyan.dimitrov on 18.3.2018 г..
@@ -86,6 +88,15 @@ public class UserViewModel extends ViewModel{
 
     public UserDB getUserFromDB(long userId){
         return userRepository.loadUser(userId);
+    }
+
+    public void uploadProfilePicture(String authorization, MultipartBody.Part photo){
+        Observable<PictureResolution> pictureResolutionObservable = userRepository.uploadProfilePicture(authorization, photo);
+        loadPictureDetails(pictureResolutionObservable);
+    }
+
+    private void loadPictureDetails(Observable<PictureResolution> pictureResolutionObservable) {
+        new NetworkBoundResponse().getResponse(pictureResolutionObservable, disposables, response);
     }
 
     private void loadUserFlights(Observable<List<FlightBooking>> flightBookingObservable, Observable<BasicModel> accessTokenGD) {
