@@ -110,7 +110,7 @@ public class ChangePasswordFragment extends Fragment implements Injectable {
                 break;
 
             case SUCCESS:
-                Toast.makeText(getContext(), "Password change successful!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Password changed successfully!", Toast.LENGTH_LONG).show();
                 sessionManager.logoutUser();
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 break;

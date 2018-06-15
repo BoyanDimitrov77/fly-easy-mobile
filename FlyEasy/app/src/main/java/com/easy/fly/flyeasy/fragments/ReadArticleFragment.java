@@ -60,7 +60,7 @@ public class ReadArticleFragment extends Fragment implements Injectable {
             public void onPageFinished(WebView view, String url){
                 // Do something when page loading finished
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(),"Page Loaded.",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"Page Loaded.",Toast.LENGTH_SHORT).show();
             }
 
         });

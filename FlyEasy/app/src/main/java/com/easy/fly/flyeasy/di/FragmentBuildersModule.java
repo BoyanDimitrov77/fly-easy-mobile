@@ -14,6 +14,7 @@ import com.easy.fly.flyeasy.fragments.NewsDetailsFragment;
 import com.easy.fly.flyeasy.fragments.PassengerFragment;
 import com.easy.fly.flyeasy.fragments.PaymentFragment;
 import com.easy.fly.flyeasy.fragments.PaymentStatusFragment;
+import com.easy.fly.flyeasy.fragments.PersonalInformationFragment;
 import com.easy.fly.flyeasy.fragments.ReadArticleFragment;
 import com.easy.fly.flyeasy.fragments.RegularRegistrationUserFragment;
 import com.easy.fly.flyeasy.fragments.SettingFragment;
@@ -70,5 +71,8 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract MyHotelsFragment contributeMyHotelsFragment();
+
+    @ContributesAndroidInjector
+    abstract PersonalInformationFragment contributePersonalInformationFragment();
 
 }
