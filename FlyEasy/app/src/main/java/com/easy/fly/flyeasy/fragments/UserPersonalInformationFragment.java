@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,26 +73,12 @@ import okhttp3.RequestBody;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserPersonalInformationFragment extends Fragment implements Injectable,DatePickerDialog.OnDateSetListener {
+public class UserPersonalInformationFragment extends Fragment implements Injectable {
 
     private static final int MY_PERMISSION_REQUEST = 100 ;
 
     private int PICK_IMAGE_FROM_GALLERY_REQUEST = 1;
 
-    @BindView(R.id.user_fullName)
-    EditText userFullName;
-
-    @BindView(R.id.user_location)
-    EditText userLocation;
-
-    @BindView(R.id.user_email)
-    EditText userEmail;
-
-    @BindView(R.id.user_birth_data)
-    EditText userBirthDate;
-
-    @BindView(R.id.user_save_btn)
-    Button userSaveButton;
 
     @BindView(R.id.profile_picture)
     CircleImageView profilePicture;
@@ -108,11 +95,8 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
 
     private String accessTockeGD;
 
-    ProgressBar progressBar;
-
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
-
 
 
     public UserPersonalInformationFragment() {
@@ -189,10 +173,6 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
 
         ButterKnife.bind(this,binding.getRoot());
 
-        userFullName.setText(user.getFullName() !=null ? user.getFullName() : "");
-        userLocation.setText(user.getLocation()!= null ? user.getLocation().getName() : "");
-        userEmail.setText(user.getEmail() !=null ? user.getEmail() : "");
-        userBirthDate.setText(user.getBirthDate() != null ? DateFormater.formatDateForUI(user.getBirthDate().toString()): "");
 
         if(user.getProfilePicture()!=null){
             Glide.with(getContext())
@@ -200,34 +180,17 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
                     .into(profilePicture);
         }
 
-        userBirthDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment dialogDatePicker =new DatePickerInFragment();
-                dialogDatePicker.setTargetFragment(UserPersonalInformationFragment.this,0);
-                dialogDatePicker.show(getFragmentManager(),"selectedDate picker");
-            }
-        });
+        Bundle bundle = new Bundle();
 
-        userSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String fullname = userFullName.getText().toString();
-                String location = userLocation.getText().toString();
-                String email = userEmail.getText().toString();
-                String birthDate = userBirthDate.getText().toString();
+        //bundle.putString("AUTORIZATION",authHeader);
+        bundle.putParcelable("USER",user);
+        bundle.putBoolean("IS_EDIT",isEdit);
 
-                if(!validateEmail(email)){
-                    Toast.makeText(getContext(), "Enter valid email", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                UpdateUserInformationDto updateUserInformationDto = new UpdateUserInformationDto(fullname,location,email, birthDate);
+        Fragment personalInformationFragment = new PersonalInformationFragment();
+        personalInformationFragment.setArguments(bundle);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.child_fragment_container, personalInformationFragment).commit();
 
-                viewModel.updatePesonalInformation(userAthenticationHeader,updateUserInformationDto);
-                viewModel.response().observe(getActivity(),response -> processResponse(response));
-
-            }
-        });
 
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,8 +214,8 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
             case SUCCESS:
                 User user = (User)response.data;
                 //save user in Database
+                Toast.makeText(getContext(), "Information changed successfully!", Toast.LENGTH_LONG).show();
                 Observable.fromCallable(() -> viewModel.saveUserInDB(user)).subscribeOn(Schedulers.io()).subscribe();
-                Toast.makeText(getContext(), "Information is update", Toast.LENGTH_LONG).show();
                 break;
 
             case ERROR:
@@ -287,25 +250,4 @@ public class UserPersonalInformationFragment extends Fragment implements Injecta
         userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
     }
 
-    private boolean validateEmail(String email){
-        boolean valid = true;
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            userEmail.setError("enter a valid email address");
-            valid = false;
-        } else {
-            userEmail.setError(null);
-        }
-
-        return valid;
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,year);
-        calendar.set(Calendar.MONTH,month);
-        calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-        String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
-        userBirthDate.setText(DateFormater.formatDate(currentDate));
-    }
 }
