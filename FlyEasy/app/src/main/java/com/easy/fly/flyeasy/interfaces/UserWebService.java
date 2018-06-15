@@ -5,6 +5,7 @@ import com.easy.fly.flyeasy.db.models.Flight;
 import com.easy.fly.flyeasy.db.models.FlightBooking;
 import com.easy.fly.flyeasy.db.models.Hotel;
 import com.easy.fly.flyeasy.db.models.HotelBook;
+import com.easy.fly.flyeasy.db.models.PictureResolution;
 import com.easy.fly.flyeasy.db.models.User;
 import com.easy.fly.flyeasy.dto.ChangeUserPasswordDto;
 import com.easy.fly.flyeasy.dto.PassengerDto;
@@ -15,11 +16,14 @@ import com.easy.fly.flyeasy.dto.UserDto;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -78,4 +82,8 @@ public interface UserWebService {
 
     @PUT("users/changePassword")
     Observable<BasicModel> changePassword(@Header("Authorization") String authorization, @Body ChangeUserPasswordDto changeUserPasswordDto);
+
+    @Multipart
+    @POST("users/uploadProfilePhoto")
+    Observable<PictureResolution> uploadProfilePicture(@Header("Authorization") String authorization, @Part MultipartBody.Part photo);
 }

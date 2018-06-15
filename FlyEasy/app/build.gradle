@@ -140,6 +140,8 @@ dependencies {
 
     implementation 'com.ms-square:expandableTextView:0.1.4'
 
+    implementation 'andhradroid.dev:aFilechooser:1.0.1'
+
 }
 
 def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*',
