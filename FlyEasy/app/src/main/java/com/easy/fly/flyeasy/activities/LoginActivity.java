@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
 
     private String password;
 
+    boolean isActivateAccount;
+
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -69,6 +71,18 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
 
         sessionManager = new SessionManager(getApplicationContext());
+
+        Intent intent = getIntent();
+
+        if(intent != null && intent.getData() != null){
+            String token = intent.getData().getQueryParameter("token");
+            isActivateAccount =true;
+            viewModel.activateAccount(token);
+            viewModel.response().observe(this,response -> processActivateAccountResponse(response));
+
+        }
+
+
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -89,6 +103,28 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+    }
+
+    private void processActivateAccountResponse(Response response) {
+
+        switch (response.status) {
+            case LOADING:
+                break;
+
+            case SUCCESS:
+                if(isActivateAccount){
+                    Toast.makeText(getBaseContext(), "Your account is activated!", Toast.LENGTH_LONG).show();
+                    User user = (User)response.data;
+                    _emailText.setText(user.getEmail());
+                    isActivateAccount = false;
+                }
+
+                break;
+
+            case ERROR:
+
+                break;
+        }
     }
 
     public void login() {

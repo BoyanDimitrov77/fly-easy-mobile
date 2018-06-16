@@ -95,6 +95,11 @@ public class UserViewModel extends ViewModel{
         loadPictureDetails(pictureResolutionObservable);
     }
 
+    public void activateAccount(String token){
+        Observable<User> userObservable = userRepository.activateAccount(token);
+        loadUserDetails(userObservable);
+    }
+
     private void loadPictureDetails(Observable<PictureResolution> pictureResolutionObservable) {
         new NetworkBoundResponse().getResponse(pictureResolutionObservable, disposables, response);
     }
