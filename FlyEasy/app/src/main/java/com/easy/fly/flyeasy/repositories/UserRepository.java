@@ -84,5 +84,8 @@ public class UserRepository {
         return userWebService.changePassword(authentication,changeUserPasswordDto);
     }
 
+    public Observable<User> activateAccount(String token){
+        return userWebService.activateAccount(token);
+    }
 
 }

@@ -86,4 +86,8 @@ public interface UserWebService {
     @Multipart
     @POST("users/uploadProfilePhoto")
     Observable<PictureResolution> uploadProfilePicture(@Header("Authorization") String authorization, @Part MultipartBody.Part photo);
+
+    @GET("verification/{token}")
+    Observable<User> activateAccount(@Path("token") String token);
+
 }
