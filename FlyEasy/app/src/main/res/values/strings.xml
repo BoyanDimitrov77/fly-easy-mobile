@@ -73,7 +73,6 @@
     <string name="personal_infromation">Personal Information</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="update_personal_information">Update personal information</string>
-    <string name="change_password">Change password</string>
     <string name="article_image">Article Image</string>
 
     <string name="business_category">Business</string>
@@ -91,5 +90,8 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="re_enter_new_password">Re-enter New Password</string>
+    <string name="change_password">Change password</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="forget_password">Forget Password</string>
 
 </resources>

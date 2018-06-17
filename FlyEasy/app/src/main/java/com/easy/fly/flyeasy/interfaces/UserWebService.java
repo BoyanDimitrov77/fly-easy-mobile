@@ -90,4 +90,10 @@ public interface UserWebService {
     @GET("verification/{token}")
     Observable<User> activateAccount(@Path("token") String token);
 
+    @POST("users/resetPassword")
+    Observable<BasicModel> resetPasswordSendEmail(@Body UserDto dto);
+
+    @POST("verification/{token}")
+    Observable<BasicModel> resetPassword(@Path("token") String token,@Body UserDto dto);
+
 }

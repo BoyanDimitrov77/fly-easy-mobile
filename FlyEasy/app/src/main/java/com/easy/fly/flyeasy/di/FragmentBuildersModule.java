@@ -6,6 +6,7 @@ package com.easy.fly.flyeasy.di;
 
 import com.easy.fly.flyeasy.fragments.BookingFragment;
 import com.easy.fly.flyeasy.fragments.ChangePasswordFragment;
+import com.easy.fly.flyeasy.fragments.ForgetPasswordChangeFragment;
 import com.easy.fly.flyeasy.fragments.HotelDetailsFragment;
 import com.easy.fly.flyeasy.fragments.HotelListFragment;
 import com.easy.fly.flyeasy.fragments.MyFlightsFragment;
@@ -17,6 +18,7 @@ import com.easy.fly.flyeasy.fragments.PaymentStatusFragment;
 import com.easy.fly.flyeasy.fragments.PersonalInformationFragment;
 import com.easy.fly.flyeasy.fragments.ReadArticleFragment;
 import com.easy.fly.flyeasy.fragments.RegularRegistrationUserFragment;
+import com.easy.fly.flyeasy.fragments.SendEmailForgetPasswordFragment;
 import com.easy.fly.flyeasy.fragments.SettingFragment;
 import com.easy.fly.flyeasy.fragments.TicketDetailsFragment;
 import com.easy.fly.flyeasy.fragments.UserPersonalInformationFragment;
@@ -74,5 +76,11 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract PersonalInformationFragment contributePersonalInformationFragment();
+
+    @ContributesAndroidInjector
+    abstract SendEmailForgetPasswordFragment contributeSendEmailForgotPassword();
+
+    @ContributesAndroidInjector
+    abstract ForgetPasswordChangeFragment contributeForgetPasswordChangeFragment();
 
 }

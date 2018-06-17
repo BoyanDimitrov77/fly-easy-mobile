@@ -100,6 +100,20 @@ public class UserViewModel extends ViewModel{
         loadUserDetails(userObservable);
     }
 
+    public void resetPasswordSendEmail (UserDto dto){
+        Observable<BasicModel> resetPasswordsendEmailObservable = userRepository.resetPasswordSendEmail(dto);
+        loadResultFromResetPassword(resetPasswordsendEmailObservable);
+    }
+
+    public void resetPassword(String token, UserDto dto){
+        Observable<BasicModel> userObservable = userRepository.resetPassword(token,dto);
+        loadResultFromResetPassword(userObservable);
+    }
+
+    private void loadResultFromResetPassword(Observable<BasicModel> resetPasswordObservable) {
+        new NetworkBoundResponse().getResponse(resetPasswordObservable, disposables, response);
+    }
+
     private void loadPictureDetails(Observable<PictureResolution> pictureResolutionObservable) {
         new NetworkBoundResponse().getResponse(pictureResolutionObservable, disposables, response);
     }

@@ -39,12 +39,15 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private static final int REQUESR_FORGET_PASSWORD = 0;
     private String authHeader;
 
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.btn_login) Button _loginButton;
     @BindView(R.id.link_signup) TextView _signupLink;
+
+    @BindView(R.id.link_forgetPassword) TextView _forgetPasswordLink;
 
     private UserViewModel viewModel;
 
@@ -99,6 +102,16 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
                 // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
+                finish();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
+
+        _forgetPasswordLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ForgetPasswordActivity.class);
+                startActivityForResult(intent, REQUESR_FORGET_PASSWORD);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
