@@ -5,9 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -31,21 +30,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity"
+        <activity
+            android:name=".activities.LoginActivity"
             android:noHistory="true">
-
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data android:scheme="https"
+                <data
                     android:host="flyeasy.app.link"
+                    android:path="/.*"
                     android:pathPrefix="/login"
-                    android:path="/.*"/>
-                <!-- note that the leading "/" is required for pathPrefix-->
+                    android:scheme="https" />
+                <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
-
         </activity>
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.HomeActivity" />
@@ -65,7 +65,24 @@
 
         <activity android:name=".activities.MyFlightsActivity" />
         <activity android:name=".activities.TicketActivity" />
-        <activity android:name=".activities.MyHotelsActivity"/>
+        <activity android:name=".activities.MyHotelsActivity" />
+        <activity android:name=".activities.ForgetPasswordActivity">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="flyeasy.app.link"
+                    android:path="/.*"
+                    android:pathPrefix="/resetPassword"
+                    android:scheme="https" />
+                <!-- note that the leading "/" is required for pathPrefix -->
+            </intent-filter>
+
+
+        </activity>
     </application>
 
 </manifest>

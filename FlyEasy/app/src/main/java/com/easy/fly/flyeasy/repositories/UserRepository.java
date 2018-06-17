@@ -88,4 +88,12 @@ public class UserRepository {
         return userWebService.activateAccount(token);
     }
 
+    public Observable<BasicModel> resetPasswordSendEmail (UserDto dto){
+        return userWebService.resetPasswordSendEmail(dto);
+    }
+
+    public Observable<BasicModel> resetPassword(String token, UserDto dto){
+        return userWebService.resetPassword(token,dto);
+    }
+
 }
