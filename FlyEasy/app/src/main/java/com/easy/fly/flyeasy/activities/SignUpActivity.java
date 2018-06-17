@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import okhttp3.ResponseBody;
 
 public class SignUpActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
@@ -116,6 +117,7 @@ public class SignUpActivity extends AppCompatActivity implements HasSupportFragm
 
             case ERROR:
                 onSignupFailed();
+                progressDialog.dismiss();
                 break;
         }
     }
