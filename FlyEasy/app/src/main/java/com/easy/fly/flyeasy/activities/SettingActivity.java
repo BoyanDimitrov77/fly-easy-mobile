@@ -86,9 +86,6 @@ public class SettingActivity extends AppCompatActivity implements HasSupportFrag
         viewModel.getUser(userAthenticationHeader);
         viewModel.response().observe(this,response ->  processResponse(response));
 
-        //UserDB user = (UserDB)getIntent().getExtras().getParcelable("USER");
-
-
     }
 
     private void processResponse(Response response) {

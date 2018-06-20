@@ -148,9 +148,6 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        //authHeader = getIntent().getStringExtra("AUTORIZATION");
-        //sessionManager.checkLogin();
-
         viewModel.allFlights(userAthenticationHeader);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -180,8 +177,6 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         });
         viewModel.response().observe(this,response -> processResponse(response));
 
-        //NavigationDrawer
-        //DrawerUtil.getDrawerProfileNavigation(this,userFromDB,sessionManager);
     }
 
     private void processResponseDB(Response response1) {

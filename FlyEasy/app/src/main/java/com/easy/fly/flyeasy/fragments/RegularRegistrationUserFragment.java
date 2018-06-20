@@ -33,16 +33,6 @@ import butterknife.ButterKnife;
  */
 public class RegularRegistrationUserFragment extends Fragment implements Injectable{
 
-    /*private static final int REQUEST_READ_CONTACTS = 0;
-
-    private RegularRegistrationUserFragment.UserLoginTask mAuthTask = null;
-
-    // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;*/
-
     private static final String TAG = "SignupActivity";
 
     @BindView(R.id.full_name) EditText _nameText;

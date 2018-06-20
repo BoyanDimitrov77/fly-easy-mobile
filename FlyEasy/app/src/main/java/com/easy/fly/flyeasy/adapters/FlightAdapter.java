@@ -64,39 +64,6 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
             }
         });
 
-
-/*        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request newRequest = chain.request().newBuilder()
-                                .addHeader("Authorization", "Bearer "+accesTokenGD)
-                                .build();
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-                .build();
-
-
-        Picasso picasso = new Picasso.Builder(context)
-                .downloader(new OkHttp3Downloader(client))
-                .loggingEnabled(true)
-                .build();
-
-        picasso
-                .load("https://" + flights.get(position).getAirLine().getLogo().getThumbnailPicture().getValue())
-                //.load("http://i.imgur.com/DvpvklR.png")
-                .placeholder(R.drawable.airplane_icon)
-                .error(R.drawable.airplane_icon)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .into(holder.airLineLogo);
-
-        StatsSnapshot picassoStats = picasso.getSnapshot();
-
-        Log.d("Picasso Stats", picassoStats.toString());*/
-
 //Glide
         Glide.with(context)
                 .load(HeaderAtuhenticationGlide.loadUrl(flights.get(position).getAirLine().getLogo().getThumbnailPicture().getValue(),accesTokenGD)) // GlideUrl is created anyway so there's no extra objects allocated

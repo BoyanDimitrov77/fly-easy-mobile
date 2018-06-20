@@ -40,9 +40,6 @@ public class PassengerAdapter extends RecyclerView.Adapter<PassengerAdapter.View
     public void onBindViewHolder(@NonNull PassengerAdapter.ViewHolder holder, int position) {
 
         PassengerDto passengerDto = passengers.get(position);
-       /* passengerDto.setPassengerName(holder.passengerName.getText().toString());
-        passengerDto.setIndentificationNumber(holder.identificationNumber.getText().toString());
-        passengerDto.setEmail(holder.email.getText().toString());*/
         holder.passengerName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

@@ -23,13 +23,6 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class ForgetPasswordActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
-    //private UserViewModel viewModel;
-
-//    @Inject
-//    public ViewModelProvider.Factory viewModelFactory;
-
-    //private SessionManager sessionManager;
-
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -39,9 +32,6 @@ public class ForgetPasswordActivity extends AppCompatActivity implements HasSupp
         setContentView(R.layout.activity_forget_password);
 
         ButterKnife.bind(this);
-     //   viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
-
-       // sessionManager = new SessionManager(getApplicationContext());
 
         Intent intent = getIntent();
 

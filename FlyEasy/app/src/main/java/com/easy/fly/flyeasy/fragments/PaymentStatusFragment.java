@@ -91,7 +91,6 @@ public class PaymentStatusFragment extends Fragment implements Injectable {
 
         isConfirmed = getArguments().getBoolean("IS_CONFIRMED");
         flightBooking = (FlightBooking)getArguments().getParcelable("FLIGHT_BOOKING");
-        //locationId = getArguments().getLong("HOTEL_LOCATION_ID");
         isPaymentStatusFormFlightBook = getArguments().getBoolean("IS_PAYMENT_STATUS_FROM_FLIGHT_BOOK");
     }
 

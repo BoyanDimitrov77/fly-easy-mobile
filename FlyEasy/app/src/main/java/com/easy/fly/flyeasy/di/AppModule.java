@@ -32,7 +32,6 @@ class AppModule {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         return new Retrofit.Builder()
-                //.baseUrl("https://flyeasyapp.herokuapp.com/api/v1/")
                 .baseUrl("http://10.0.2.2:8080/api/v1/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())

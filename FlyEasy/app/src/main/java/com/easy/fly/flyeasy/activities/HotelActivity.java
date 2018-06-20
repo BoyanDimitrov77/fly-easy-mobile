@@ -75,20 +75,7 @@ public class HotelActivity extends AppCompatActivity implements HasSupportFragme
         setContentView(R.layout.activity_hotel);
         ButterKnife.bind(this);
 
-        //viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
-
-        //sessionManager = new SessionManager(this);
-
         initKey();
-
-/*        //get user from Database
-        Observable.fromCallable(() -> viewModel.getUserFromDB(UserUtil.getUserId(sessionManager.getUserDeatails())))
-                .subscribeOn(Schedulers.io())
-                //.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(data->setUserFromDB(data));*/
-
-        //NavigationDrawer
-        //DrawerUtil.getDrawerProfileNavigation(this,userFromDB);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setSelectedItemId(R.id.navigation_hotel);
@@ -117,12 +104,10 @@ public class HotelActivity extends AppCompatActivity implements HasSupportFragme
     }
 
     public void initKey(){
-        //userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
         hotelScreenSelected = getIntent().getExtras().get("HOTEL_SCREEN_SELECTED").toString();
         if(getIntent().getExtras().get("HOTEL_LOCATION_ID")!=null){
             locationId = Long.valueOf(getIntent().getExtras().get("HOTEL_LOCATION_ID").toString());
         }
-        //userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
 
     }
 

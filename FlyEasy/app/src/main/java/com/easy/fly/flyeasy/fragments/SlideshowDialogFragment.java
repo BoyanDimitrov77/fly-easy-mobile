@@ -41,8 +41,6 @@ public class SlideshowDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_image_slider, container, false);
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         lblCount = (TextView) v.findViewById(R.id.lbl_count);
-        //lblTitle = (TextView) v.findViewById(R.id.title);
-        //lblDate = (TextView) v.findViewById(R.id.date);
 
         images =  getArguments().getParcelableArrayList("images");
         selectedPosition = getArguments().getInt("position");
@@ -88,8 +86,6 @@ public class SlideshowDialogFragment extends DialogFragment {
         lblCount.setText((position + 1) + " of " + images.size());
 
         PictureResolution image = images.get(position);
-        //lblTitle.setText(image.getName());
-        //lblDate.setText(image.getTimestamp());
     }
 
     @Override

@@ -76,12 +76,11 @@ public class BookingActivity extends AppCompatActivity implements HasSupportFrag
 
         Flight flight = (Flight)getIntent().getExtras().getParcelable("FLIGHT");
         String accessTocketnGD = (String) getIntent().getExtras().get("ACCES_TOCKENT_GD");
-        //String autorization = getIntent().getStringExtra("AUTORIZATION");
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("FLIGHT",getIntent().getExtras().getParcelable("FLIGHT"));
         bundle.putString("ACCES_TOCKENT_GD",accessTocketnGD);
-        //bundle.putString("AUTORIZATION",autorization);
+
         BookingFragment bookingFragment = new BookingFragment();
         bookingFragment.setArguments(bundle);
 

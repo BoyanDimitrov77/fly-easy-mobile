@@ -150,7 +150,6 @@ public class PassengerFragment extends Fragment implements Injectable {
 
     private void  initKey(){
         userAthenticationHeader = UserUtil.getUserAthenticationHeader(sessionManager.getUserDeatails());
-       // authHeader = getArguments().getString("AUTORIZATION");
         ticketNumber = getArguments().getInt("TICKET_NUMBER");
         flightBookId = getArguments().getLong("FLIGHT_BOOK_ID");
         travelClassId = getArguments().getLong("TRAVEL_CLASS_ID");

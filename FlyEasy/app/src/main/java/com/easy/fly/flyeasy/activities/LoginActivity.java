@@ -165,18 +165,6 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
         viewModel.loginUser(authHeader);
         viewModel.response().observe(this,response->processResponse(response,progressDialog));
 
-
-        // TODO: Implement your own authentication logic here.
-
-        /*new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);*/
     }
 
     private void processResponse(Response response,ProgressDialog progressDialog) {
@@ -194,7 +182,6 @@ public class LoginActivity extends AppCompatActivity implements HasSupportFragme
                 Observable.fromCallable(() -> viewModel.saveUserInDB((User) response.data)).subscribeOn(Schedulers.io()).subscribe();
 
                 Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-                //intent.putExtra("AUTORIZATION",authHeader);
                 startActivity(intent);
                 break;
 

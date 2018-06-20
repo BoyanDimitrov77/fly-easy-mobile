@@ -15,8 +15,6 @@ public class UserDto {
     private String password;
     private String userName;
     private String fullName;
-
-    //private String profilePicture;
     private String birthDate;
     private String location;
 
@@ -25,7 +23,6 @@ public class UserDto {
         this.password = password;
         this.userName = userName;
         this.fullName = fullName;
-        //this.profilePicture = profilePicture;
         this.birthDate = birthDate;
         this.location = location;
     }

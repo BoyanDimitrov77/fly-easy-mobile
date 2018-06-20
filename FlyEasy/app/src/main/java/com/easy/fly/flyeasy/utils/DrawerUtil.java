@@ -74,39 +74,6 @@ public class DrawerUtil {
                 })
                 .build();
 
-        /*DrawerImageLoader.init(new AbstractDrawerImageLoader() {
-            @Override
-            public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
-                Log.d("URI",uri.toString());
-                Glide.with(imageView.getContext()).load(HeaderAtuhenticationGlide.loadUrl(uri.toString(),userAthenticationHeader)).into(imageView);
-            }
-
-            @Override
-            public void cancel(ImageView imageView) {
-                Glide.with(imageView.getContext()).clear(imageView);
-            }
-
-            @Override
-            public Drawable placeholder(Context ctx, String tag) {
-                //define different placeholders for different imageView targets
-                //default tags are accessible via the DrawerImageLoader.Tags
-                //custom ones can be checked via string. see the CustomUrlBasePrimaryDrawerItem LINE 111
-                if (DrawerImageLoader.Tags.PROFILE.name().equals(tag)) {
-                    return DrawerUIUtils.getPlaceHolder(ctx);
-                } else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
-                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(com.mikepenz.materialdrawer.R.color.primary).sizeDp(56);
-                } else if ("customUrlItem".equals(tag)) {
-                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
-                }
-
-                //we use the default one for
-                //DrawerImageLoader.Tags.PROFILE_DRAWER_ITEM.name()
-
-                return super.placeholder(ctx, tag);
-            }
-        });*/
-
-
 
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()

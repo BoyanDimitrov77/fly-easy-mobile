@@ -98,7 +98,6 @@ public class UserProfileActivity extends AppCompatActivity implements HasSupport
             case SUCCESS:
                 switch(key){
                     case "USER_PERSONAL_INFORMATION":
-                        //UserDB user = (UserDB)getIntent().getExtras().getParcelable("USER");
                         User user = (User)response.data;
 
                         Bundle bundle = new Bundle();
